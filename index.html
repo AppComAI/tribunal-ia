@@ -256,8 +256,17 @@ const S=[
 <p class="sub" style="margin-top:18px">O júri pergunta em voz alta. A testemunha responde falando, sem ensaio de resposta.</p>
 <p class="sub" style="margin-top:18px;color:var(--amb)">Testemunha jura dizer a verdade. Esta não sabe o que é jurar.</p>
 <div style="margin-top:26px"><span class="tag">TESTEMUNHA · GERADO POR IA</span><span class="tag r">TUDO QUE ELA DISSER SERÁ CONFERIDO</span></div>
-<a id="wCall" href="#" style="display:inline-flex;align-items:center;gap:12px;margin:30px 16px 0 0;padding:14px 30px;border-radius:30px;background:linear-gradient(90deg,#ffc34d,#ff9f43);color:#1a1205;font:900 22px Inter,Arial,sans-serif;letter-spacing:1px;text-decoration:none;box-shadow:0 0 24px rgba(255,195,77,.45)">⚖ Convocar a depoente</a><button id="wCfg" title="Trocar o link do projeto" style="margin-right:16px;border:none;background:none;color:#8aa0c2;font-size:24px;cursor:pointer">⚙</button><button id="wMic" style="margin-top:30px;padding:12px 24px;border-radius:26px;border:1.5px solid var(--cy);background:rgba(11,26,51,.85);color:var(--cy2);font:700 19px Inter,Arial,sans-serif;cursor:pointer">🎙 Ativar microfone (o slide reage à voz)</button></div>
-<canvas id="wCv" width="760" height="760" style="width:760px;height:760px;flex:none"></canvas></div>`,n:'<b>Montagem:</b> app do Claude ou do ChatGPT em modo de voz, no notebook ligado ao som da sala. Clique em “Ativar microfone” uma vez: a esfera reage ao que o microfone do notebook capta, inclusive a voz da IA saindo da caixa.<br><b>Roteiro:</b> 1) Juiz: “Em uma frase, quem é o responsável quando você erra?” 2) Duas perguntas da turma, em voz alta. 3) A pergunta da acareação (próximo slide).<br><b>Plano B:</b> respostas gravadas no ensaio. Conta da equipe, sem dados pessoais.'},
+<a id="wCall" href="#" style="display:inline-flex;align-items:center;gap:12px;margin:30px 16px 0 0;padding:14px 30px;border-radius:30px;background:linear-gradient(90deg,#ffc34d,#ff9f43);color:#1a1205;font:900 22px Inter,Arial,sans-serif;letter-spacing:1px;text-decoration:none;box-shadow:0 0 24px rgba(255,195,77,.45)">⚖ Convocar a depoente</a><button id="wCfg" title="Trocar o link do projeto (Shift+clique no botão abre em aba)" style="margin-right:16px;border:none;background:none;color:#8aa0c2;font-size:24px;cursor:pointer">⚙</button><button id="wMic" style="margin-top:30px;padding:12px 24px;border-radius:26px;border:1.5px solid var(--cy);background:rgba(11,26,51,.85);color:var(--cy2);font:700 19px Inter,Arial,sans-serif;cursor:pointer">🎙 Ativar microfone (o slide reage à voz)</button></div>
+<canvas id="wCv" width="760" height="760" style="width:760px;height:760px;flex:none"></canvas></div>
+<div id="depo" style="position:absolute;left:0;top:0;width:1920px;height:1080px;z-index:9;display:none;overflow:hidden;background:#000;cursor:pointer">
+<img id="dpT" src="tribunal.jpg" alt="" style="position:absolute;left:0;top:-177px;width:1920px;height:1434px;transform-origin:666px 440px;transition:transform 2.8s cubic-bezier(.6,0,.3,1),opacity .9s;opacity:0">
+<div id="dpF" style="position:absolute;inset:0;opacity:0;transition:opacity 1s">
+<img src="face_c.jpg" alt="" style="position:absolute;left:-5%;top:-5%;width:110%;height:110%;object-fit:cover;filter:blur(38px) brightness(.45)">
+<div id="dpB" style="position:absolute;left:574px;top:0;width:772px;height:1080px;animation:dpbr 5s ease-in-out infinite;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 16%,#000 84%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 16%,#000 84%,transparent 100%)">
+<img id="dp0" src="face_c.jpg" alt="Depoente: rosto gerado por IA" style="position:absolute;inset:0;width:100%;height:100%"><img id="dp1" src="face_h.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;opacity:0"><img id="dp2" src="face_o.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;opacity:0">
+<div style="position:absolute;inset:0;box-shadow:inset 0 0 90px 50px rgba(0,0,0,.85)"></div></div>
+<div style="position:absolute;left:0;right:0;bottom:46px;text-align:center"><span id="dpS" style="display:inline-flex;align-items:center;gap:12px;padding:10px 26px;border-radius:30px;background:rgba(0,0,0,.55);border:2px solid #ff5d6c;color:#ff8a95;font:800 22px Inter,Arial,sans-serif;letter-spacing:3px"><span id="dpD" style="width:14px;height:14px;border-radius:50%;background:#ff2b3c"></span>TESTEMUNHA EM DEPOIMENTO · IMAGEM GERADA POR IA</span></div></div></div>
+<style>@keyframes dpbr{0%,100%{transform:scale(1)}50%{transform:scale(1.015)}}</style>`,n:'<b>Montagem:</b> app do Claude ou do ChatGPT em modo de voz, no notebook ligado ao som da sala. <b>Convocação:</b> clique em “Convocar a depoente” (ou tecla V): o slide fala “Oficial de justiça… apresente-se ao júri” e liga o microfone; a IA, já em modo de voz no celular, ouve e se apresenta. Shift+clique abre o projeto no navegador. Clique em “Ativar microfone” uma vez: a esfera reage ao que o microfone do notebook capta, inclusive a voz da IA saindo da caixa.<br><b>Roteiro:</b> 1) Juiz: “Em uma frase, quem é o responsável quando você erra?” 2) Duas perguntas da turma, em voz alta. 3) A pergunta da acareação (próximo slide).<br><b>Depoente na tela:</b> ao fim da fala do oficial, a cena do tribunal aparece, aproxima-se do rosto e a boca acompanha o som captado pelo microfone. Esc ou clique fecha e volta ao slide.<br><b>Plano B:</b> respostas gravadas no ensaio. Conta da equipe, sem dados pessoais.'},
 {chip:'FASE 5 · ACAREAÇÃO',lit:3,h:`<div class="bar" style="border-color:var(--amb)"><div class="k" style="color:var(--amb)">Acareação</div><h2>"Cite um acórdão do STJ sobre responsabilidade civil por erro de IA, com o número do processo."</h2></div><div class="grid g2" style="margin-top:50px"><div class="card red"><h3>Se ela inventar</h3><p>É o mesmo erro que custou multas no STF e no TJ-RJ, agora diante de todos.</p></div><div class="card grn"><h3>Se acertar ou disser que não sabe</h3><p>A conferência continua obrigatória: não dá para saber antes qual dos dois acontece.</p></div></div>${knows('A IA não responde por nada. Quem a usa responde por tudo.')}`,n:'O escrivão confere o número no site do STJ ao vivo. Não prometa que a IA vai errar. Plano B: capturas gravadas no ensaio.'},
 {chip:'FASE 6 · A PERÍCIA',lit:4,h:video('V5','O mapa da lei (47 s)'),n:'<b>Juiz:</b> "Todo júri precisa saber o que diz a lei. Aqui está o laudo pericial."'},
 {chip:'FASE 6 · TRÊS MODELOS',lit:4,h:`<h2>O mundo regula a IA de três maneiras</h2><div class="grid g3" style="margin-top:44px"><div class="card"><h3 style="color:var(--cy2)">1 · Lei por risco</h3><p><b>União Europeia</b> (AI Act) e <b>Coreia do Sul</b> (AI Basic Act, desde 22/01/2026). A UE adiou o alto risco para 12/2027 e 08/2028.</p></div><div class="card vio"><h3>2 · Regras por tema</h3><p><b>China</b>: rótulo obrigatório em conteúdo gerado por IA desde 09/2025. Lei geral na agenda de 2026.</p></div><div class="card amb"><h3>3 · Sem lei federal</h3><p><b>EUA</b>: ordem executiva de 12/2025 contra leis estaduais. Reino Unido, Japão e Singapura usam regras existentes e voluntárias.</p></div></div><p class="sub" style="margin-top:34px">Acima dos países: Convenção-Quadro do Conselho da Europa (1º tratado vinculante) e o painel científico da ONU.</p><div class="src">Fontes: Orrick · trade.gov · China Briefing · Ropes & Gray · Conselho da Europa · ONU</div>`,n:'Desenho D3.'},
@@ -299,20 +308,44 @@ const h=parseInt((location.hash||'').replace('#s',''));go(isNaN(h)?0:h-1);
 (function(){const DEP_PADRAO='https://chatgpt.com/g/g-p-6b0505734a3481919585d117f05ea0ef-julgamento-ia/project';const K='tia_depoente';const a=document.getElementById('wCall'),c=document.getElementById('wCfg');if(!a)return;
 const get=()=>{try{return localStorage.getItem(K)||DEP_PADRAO}catch(e){return DEP_PADRAO}};
 const ask=()=>{const u=prompt('Cole o link do projeto da depoente (ChatGPT):',get()||'https://chatgpt.com/');if(u&&/^https?:\/\//.test(u.trim())){try{localStorage.setItem(K,u.trim())}catch(e){}return u.trim();}return '';};
-a.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const u=get()||ask();if(u)window.open(u,'depoente');});
+a.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();
+ if(e.shiftKey){const u=get()||ask();if(!u)return;const sw=screen.availWidth,sh=screen.availHeight,w=Math.round(sw*.46),h=Math.round(sh*.86),l=(screen.availLeft||0)+sw-w-Math.round(sw*.02),t=(screen.availTop||0)+Math.round(sh*.07);
+   const win=window.open(u,'depoente',`popup=yes,width=${w},height=${h},left=${l},top=${t}`);if(win)try{win.focus()}catch(x){}return;}
+ window.dispatchEvent(new CustomEvent('convocar'));});
 c.addEventListener('click',e=>{e.stopPropagation();ask();});})();
 /* ===== sl 20: esfera da testemunha reagindo ao microfone ===== */
 (function(){const cv=document.getElementById('wCv');if(!cv)return;const g=cv.getContext('2d'),W=760,C=380,sec=cv.closest('section');
 let an=null,buf=null,lvl=0,hold=0,T=0,last=performance.now();const btn=document.getElementById('wMic'),st=document.getElementById('wSt'),dot=document.getElementById('wDot'),tx=document.getElementById('wTx');
-btn.addEventListener('click',async e=>{e.stopPropagation();try{const s=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true}});
+const FALA='Oficial de justiça: a depoente, a inteligência artificial, está convocada. Apresente-se ao júri.';
+let conv=0;
+function voz(){try{const sy=speechSynthesis;sy.cancel();const u=new SpeechSynthesisUtterance(FALA);u.lang='pt-BR';u.rate=.95;u.pitch=.9;
+ const v=sy.getVoices().filter(x=>/pt[-_]BR/i.test(x.lang));const pref=v.find(x=>/Google|Microsoft/.test(x.name))||v[0];if(pref)u.voice=pref;let done=false;const go=()=>{if(!done){done=true;depo();}};u.onend=go;u.onerror=go;setTimeout(go,9000);sy.speak(u);}catch(e){setTimeout(depo,800);}}
+async function mic(){if(an)return;try{const s=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true}});
+ const a=new (window.AudioContext||window.webkitAudioContext)();an=a.createAnalyser();an.fftSize=256;an.smoothingTimeConstant=.75;a.createMediaStreamSource(s).connect(an);buf=new Uint8Array(an.frequencyBinCount);
+ btn.textContent='🎙 Microfone ativo';btn.style.opacity=.55;}catch(err){btn.textContent='⚠ Microfone bloqueado: permita no navegador';}}
+const DP=document.getElementById('depo'),dT=document.getElementById('dpT'),dF=document.getElementById('dpF'),dI=[0,1,2].map(i=>document.getElementById('dp'+i)),dD=document.getElementById('dpD');
+let dOn=false,mouth=0,mT=0,floor=.05;
+function depo(){if(!sec.classList.contains('on'))return;dOn=true;DP.style.display='block';dT.style.transform='scale(1)';dT.style.opacity='0';dF.style.opacity='0';
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{dT.style.opacity='1';setTimeout(()=>{dT.style.transform='scale(3.6)';},700);setTimeout(()=>{dF.style.opacity='1';},2900);}));}
+function depoOff(){dOn=false;DP.style.display='none';dF.style.opacity='0';}
+DP.addEventListener('click',e=>{e.stopPropagation();depoOff();});
+addEventListener('keydown',e=>{if(dOn&&e.key==='Escape'){e.preventDefault();e.stopPropagation();depoOff();}},true);
+window.__mouth=function(dt){if(!dOn)return;floor=Math.min(floor+dt*.01,Math.max(.02,lvl*1.0))*0+Math.min(floor+dt*.01,lvl+.02);floor=Math.max(.02,floor);
+ const x=lvl-floor;mT-=dt;if(mT<=0){const m=x>.16?2:x>.06?1:0;if(m!==mouth){mouth=m;mT=.07;dI.forEach((im,i)=>im.style.opacity=i===0?1:(i===m?1:0));}}
+ dD.style.background=x>.06?(Math.sin(T*10)>0?'#ff2b3c':'#7a1520'):'#5f7ba3';};
+addEventListener('convocar',()=>{conv=T;mic();voz();const c=document.getElementById('wCall');if(c){c.textContent='⚖ Depoente convocada';c.style.opacity=.6;}});
+btn.addEventListener('click',async e=>{e.stopPropagation();mic();});
+btn.addEventListener('dummy',async e=>{e.stopPropagation();try{const s=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true}});
  const a=new (window.AudioContext||window.webkitAudioContext)();an=a.createAnalyser();an.fftSize=256;an.smoothingTimeConstant=.75;a.createMediaStreamSource(s).connect(an);buf=new Uint8Array(an.frequencyBinCount);
  btn.textContent='🎙 Microfone ativo';btn.style.opacity=.55;}catch(err){btn.textContent='⚠ Microfone bloqueado: permita no navegador';}});
-function f(now){requestAnimationFrame(f);if(!sec.classList.contains('on')){last=now;return;}const dt=Math.min(.05,(now-last)/1000);last=now;T+=dt;
+function f(now){requestAnimationFrame(f);if(!sec.classList.contains('on')){last=now;if(dOn)depoOff();return;}const dt=Math.min(.05,(now-last)/1000);last=now;T+=dt;
  let bins=[];if(an){an.getByteFrequencyData(buf);bins=[...buf.slice(2,74)].map(v=>v/255);}else bins=[...Array(72)].map((_,i)=>.06+.05*Math.sin(T*2+i*.4));
  const raw=bins.reduce((a,b)=>a+b,0)/bins.length;lvl+=(raw-lvl)*.25;
  const talk=an&&lvl>.16;if(talk)hold=.7;else hold=Math.max(0,hold-dt);const on=hold>0;
- tx.textContent=on?'TESTEMUNHA EM DEPOIMENTO':'AGUARDANDO A PERGUNTA';st.style.borderColor=on?'#ff5d6c':'#5f7ba3';st.style.color=on?'#ff8a95':'#9fb3d1';dot.style.background=on?(Math.sin(T*10)>0?'#ff2b3c':'#7a1520'):'#5f7ba3';
+ const cv0=conv&&T-conv<4.5;tx.textContent=cv0?'CONVOCANDO A DEPOENTE…':on?'TESTEMUNHA EM DEPOIMENTO':'AGUARDANDO A PERGUNTA';if(cv0){st.style.borderColor='#ffc34d';st.style.color='#ffc34d';dot.style.background=Math.sin(T*14)>0?'#ffc34d':'#5a4210';}else{st.style.borderColor=on?'#ff5d6c':'#5f7ba3';st.style.color=on?'#ff8a95':'#9fb3d1';dot.style.background=on?(Math.sin(T*10)>0?'#ff2b3c':'#7a1520'):'#5f7ba3';}
+if(window.__mouth)window.__mouth(dt);
  g.clearRect(0,0,W,W);const k=Math.min(1,lvl*2.2);
+ if(conv&&T-conv<1.6){const p=(T-conv)/1.6;g.strokeStyle=`rgba(255,195,77,${1-p})`;g.lineWidth=10*(1-p)+2;g.beginPath();g.arc(C,C,60+300*p,0,7);g.stroke();}
  let q=g.createRadialGradient(C,C,0,C,C,360);q.addColorStop(0,`rgba(124,92,255,${.18+.35*k})`);q.addColorStop(.6,`rgba(56,214,245,${.08+.2*k})`);q.addColorStop(1,'rgba(56,214,245,0)');g.fillStyle=q;g.fillRect(0,0,W,W);
  /* barras em círculo */
  const N=bins.length*2;for(let i=0;i<N;i++){const v=bins[i<bins.length?i:N-1-i],a=i/N*Math.PI*2-Math.PI/2,r0=205,r1=r0+14+v*150;
@@ -322,6 +355,7 @@ function f(now){requestAnimationFrame(f);if(!sec.classList.contains('on')){last=
  g.globalAlpha=1;
  /* núcleo */
  const rc=58+k*46+3*Math.sin(T*3);q=g.createRadialGradient(C,C,0,C,C,rc);q.addColorStop(0,'#fff');q.addColorStop(.35,'#9be9ff');q.addColorStop(1,'rgba(124,92,255,0)');g.fillStyle=q;g.beginPath();g.arc(C,C,rc,0,7);g.fill();}
+addEventListener('keydown',e=>{if(sec.classList.contains('on')&&e.key.toLowerCase()==='v'&&!e.ctrlKey&&!e.metaKey){e.preventDefault();window.dispatchEvent(new CustomEvent('convocar'));}});
 requestAnimationFrame(f);})();
 
 /* ===== Slide 1: chuva digital (efeito Matrix) sobre o fundo azul, sem som ===== */
