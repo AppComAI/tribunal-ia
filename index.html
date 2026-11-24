@@ -296,7 +296,7 @@ function toggle(id){const e=document.getElementById(id);e.style.display=e.style.
 addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(e.target&&e.target.tagName==='INPUT')return;if(k==='arrowright'||k===' '||k==='pagedown'){e.preventDefault();next()}else if(k==='arrowleft'||k==='pageup')prev();else if(k==='n')toggle('notes');else if(k==='g')toggle('index');else if(k==='t')timer();else if(k==='r')document.querySelectorAll('.slide.on .vrev').forEach(o=>o.classList.add('visible'));else if(k==='f'){try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(x){}}});
 const h=parseInt((location.hash||'').replace('#s',''));go(isNaN(h)?0:h-1);
 /* ===== sl 20: link para o projeto da depoente (ChatGPT) ===== */
-(function(){const DEP_PADRAO='';const K='tia_depoente';const a=document.getElementById('wCall'),c=document.getElementById('wCfg');if(!a)return;
+(function(){const DEP_PADRAO='https://chatgpt.com/g/g-p-6b0505734a3481919585d117f05ea0ef-julgamento-ia/project';const K='tia_depoente';const a=document.getElementById('wCall'),c=document.getElementById('wCfg');if(!a)return;
 const get=()=>{try{return localStorage.getItem(K)||DEP_PADRAO}catch(e){return DEP_PADRAO}};
 const ask=()=>{const u=prompt('Cole o link do projeto da depoente (ChatGPT):',get()||'https://chatgpt.com/');if(u&&/^https?:\/\//.test(u.trim())){try{localStorage.setItem(K,u.trim())}catch(e){}return u.trim();}return '';};
 a.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const u=get()||ask();if(u)window.open(u,'depoente');});
