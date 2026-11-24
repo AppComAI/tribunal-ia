@@ -213,7 +213,7 @@ const orb=(s=260)=>`<svg width="${s}" height="${s}" viewBox="-100 -100 200 200">
 const QRBOX=c=>`<div class="vqr"><button class="vgear" title="Configurar votação ao vivo">⚙</button><div class="vqrbox"></div><p class="vcap">Aponte a câmera e ${c?'responda':'vote'}</p><p class="vurl"></p><button class="vzoom">QR CODE ZOOM</button><p class="vtot">0 ${c?'respostas':'votos'}</p></div>`;
 const LED=`<div class="vled" title="Clique para iniciar / pausar (tecla T)"><svg class="vledsvg" viewBox="0 0 260 150"></svg><span class="vledlab">clique para iniciar</span></div>`;
 const poll=(pid,eb,q,opts,o={})=>({cls:'poll',attr:`data-pid="${pid}"`+(o.correct!==undefined?` data-correct="${o.correct}"`:''),h:`${LED}<p class="eyebrow">${eb}</p>${o.icon?`<div class="vq-row" style="display:flex;gap:34px;align-items:center;min-height:150px">${o.icon}<h2 class="vq">${q}</h2></div>`:`<h2 class="vq">${q}</h2>`}<div class="vwrap"><div class="vgrid">${opts.map((t,i)=>`<div class="vopt" data-k="${i}"><span class="vl">${'ABCD'[i]}</span><span class="vt2">${t}</span><span class="vn">0</span><span class="vpm"><button class="vm" title="Tirar 1 voto">−</button><button class="vp" title="Somar 1 voto">+</button></span><span class="vb"></span></div>`).join('')}</div>${QRBOX(0)}</div>${o.after||''}<div class="vtools"><button class="vreset">Zerar votação</button><button class="vmute" title="Som do cronômetro (tecla M)">🔊 Som</button><span class="vstat"></span></div><div class="vrev fragment">${o.rev||''}</div>`});
-const cloudP=(pid,eb,q,rev)=>({cls:'poll cloud',attr:`data-pid="${pid}"`,h:`${LED}<p class="eyebrow">${eb}</p><h2 class="vq">${q}</h2><div class="vwrap"><div class="vcloud"><p class="vcempty">As palavras da turma aparecem aqui</p></div>${QRBOX(1)}</div><div class="vtools"><button class="vreset">Zerar nuvem</button><button class="vmute" title="Som do cronômetro (tecla M)">🔊 Som</button><input class="vadd" maxlength="30" placeholder="+ palavra (Enter)" title="Sem conexão? Digite a palavra dita pela turma e tecle Enter"><span class="vhint">clique numa palavra para ocultá-la</span><span class="vstat"></span></div><div class="vrev fragment">${rev}</div>`});
+const cloudP=(pid,eb,q,rev)=>({cls:'poll cloud',attr:`data-pid="${pid}"`,h:`${LED}<p class="eyebrow">${eb}</p><h2 class="vq">${q}</h2><div class="vwrap"><div class="vcloud"><p class="vcempty">As palavras da turma aparecem aqui</p></div>${QRBOX(1)}</div><div class="vtools"><button class="vreset">Zerar nuvem</button><button class="vmute" title="Som do cronômetro (tecla M)">🔊 Som</button><input class="vadd" maxlength="95" placeholder="+ até 3 palavras, com vírgula (Enter)" title="Sem conexão? Digite a palavra dita pela turma e tecle Enter"><span class="vhint">clique numa palavra para ocultá-la</span><span class="vstat"></span></div><div class="vrev fragment">${rev}</div>`});
 const BAL=`<svg viewBox="0 0 700 520" width="190" height="141" fill="none" stroke-linecap="round" style="flex:none"><line x1="350" y1="80" x2="350" y2="460" stroke="#c8d6ee" stroke-width="10"/><line x1="110" y1="120" x2="590" y2="120" stroke="#c8d6ee" stroke-width="10"/><path d="M110 120 L60 260 H160 Z" stroke="#ff5d6c" stroke-width="9"/><path d="M590 120 L540 260 H640 Z" stroke="#3ee6a8" stroke-width="9"/><path d="M260 480 H440 L400 460 H300 Z" fill="#c8d6ee" fill-opacity=".3" stroke="#c8d6ee" stroke-width="6"/></svg>`;
 const video=(n,t)=>`<div class="k" style="text-align:center">${n} · ${t}</div><video class="vid" controls preload="metadata"><source src="${n}.mp4#t=4" type="video/mp4"><source src="videos/${n}.mp4#t=4" type="video/mp4"></video>`;
 const knows=t=>`<div class="knows"><b>O QUE O JÚRI JÁ SABE</b>${t}</div>`;
@@ -240,7 +240,7 @@ const S=[
 {chip:'FASE 1 · QUALIFICAÇÃO DA RÉ',lit:1,h:`<div style="display:flex;gap:60px;align-items:center"><div style="flex:1" class="bar"><div class="k">Quem é a ré?</div><h1>Não é uma pessoa.</h1><p class="sub">É um sistema que aprende padrões com dados e produz textos, imagens, previsões e decisões.</p><p class="sub" style="margin-top:30px">Sem rosto · sem endereço · não dorme</p></div>${orb(440)}</div>`,n:'<b>Juiz:</b> "Todo julgamento começa qualificando o réu. Para julgá-la, vamos usar três palavras que vão nos acompanhar até o fim."'},
 {chip:'FASE 1 · AS TRÊS PALAVRAS',lit:1,h:`<h2 style="text-align:center">Três palavras para julgar a ré</h2><svg viewBox="0 0 1700 690" width="1700" height="690"><defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#38d6f5"/><stop offset=".5" stop-color="#a78bfa"/><stop offset="1" stop-color="#ffc34d"/></linearGradient></defs><path d="M850 140 L380 560 L1320 560 Z" fill="none" stroke="url(#tg)" stroke-width="5"/><circle cx="850" cy="140" r="22" fill="#38d6f5"/><circle cx="380" cy="560" r="22" fill="#a78bfa"/><circle cx="1320" cy="560" r="22" fill="#ffc34d"/><text x="850" y="44" text-anchor="middle" font-size="44" font-weight="800" fill="#eaf2ff">GOVERNANÇA</text><text x="850" y="90" text-anchor="middle" font-size="28" fill="#38d6f5">quem decide e quem responde</text><text x="380" y="620" text-anchor="middle" font-size="44" font-weight="800" fill="#eaf2ff">ÉTICA</text><text x="380" y="660" text-anchor="middle" font-size="28" fill="#a78bfa">o que é certo fazer</text><text x="1320" y="620" text-anchor="middle" font-size="44" font-weight="800" fill="#eaf2ff">RESPONSABILIDADE</text><text x="1320" y="660" text-anchor="middle" font-size="28" fill="#ffc34d">quem paga quando dá errado</text><foreignObject x="700" y="260" width="300" height="300">${orb(300)}</foreignObject></svg>`,n:'Desenho D1. Revelar um vértice por vez na versão final.'},
 {chip:'FASE 1 · PRINCÍPIOS',lit:1,h:`<div class="bar"><div class="k">A base das leis</div><h2>Dois documentos orientam quase todas as regras que vamos ver</h2></div><div class="grid g2" style="margin-top:50px"><div class="card"><h3>Princípios de IA da OCDE</h3><p>2019, revistos em 2024. Não obrigam, mas orientam leis nacionais e políticas de empresas.</p></div><div class="card"><h3>Recomendação da UNESCO sobre a Ética da IA</h3><p>2021. Referência ética adotada pelos Estados-membros.</p></div></div>`,n:'Só os nomes. O detalhe da lei fica para a Fase 6.'},
-{chip:'FASE 1 · NUVEM',lit:1,...cloudP('ia_c1','Fase 1 · Conceitos · Nuvem de palavras','“Quando penso em IA, sinto…”','<b>O que o júri já sabe:</b> governança é dono e regra. Ética é o certo. Responsabilidade é quem responde.'),n:'Abrir a nuvem (T, 40 s). Uma palavra por pessoa. Ler em voz alta as 3 maiores. Sem conexão: digite no campo “+ palavra”.'},
+{chip:'FASE 1 · NUVEM',lit:1,...cloudP('ia_c1','Fase 1 · Conceitos · Nuvem de palavras','“Quando penso em IA, sinto…”','<b>O que o júri já sabe:</b> governança é dono e regra. Ética é o certo. Responsabilidade é quem responde.'),n:'Abrir a nuvem (T, 40 s). Até 3 palavras por pessoa. Ler em voz alta as 3 maiores. Sem conexão: digite no campo “+ palavra”.'},
 {chip:'FASE 2 · A DENÚNCIA',lit:2,h:`<div class="bar" style="border-color:var(--red)"><div class="k" style="color:#ff8a95">A acusação</div><h2>A ré é acusada de enganar, consumir demais e ameaçar o trabalho</h2></div><div class="grid g3" style="margin-top:60px"><div class="card red"><div class="big" style="color:var(--red)">346</div><p>incidentes com IA registrados em 2025, 179 com deepfake</p></div><div class="card amb"><div class="big" style="color:var(--amb)">+50%</div><p>eletricidade dos data centers de IA em 2025</p></div><div class="card amb"><div class="big" style="color:var(--amb)">~40%</div><p>dos empregos no mundo serão afetados (não eliminados)</p></div></div><div class="src">Fontes: AI Incident Database (via Cybernews) · IEA · FMI</div>`,n:'<b>Promotor:</b> "A acusação não vem com hipóteses: vem com registros."<br>A base de incidentes depende de notícias. Diga isso se perguntarem.'},
 {chip:'FASE 2 · V2',lit:2,h:video('V2','A denúncia (44 s)'),n:'Rodar V2.'},
 {chip:'FASE 2 · PERGUNTA',lit:2,...poll('ia_q2','Fase 2 · Acusação · Sua vez','Qual acusação pesa mais para você?',['Enganar (deepfake e fraude)','Errar sem avisar (alucinação)','Consumir energia','Tirar empregos'],{rev:'<b>O que o júri já sabe:</b> os danos já estão registrados. Não são ficção científica.'}),n:'40 s.'},
@@ -250,7 +250,14 @@ const S=[
 {chip:'FASE 4 · PROVAS DA DEFESA',lit:3,h:`<div class="bar" style="border-color:var(--grn)"><div class="k" style="color:var(--grn)">A defesa</div><h2>Nas mãos certas, a ré já entrega</h2></div><div class="grid g2" style="margin-top:40px"><div class="card grn"><h3>Cheias avisadas</h3><p>Previsões para 2 bilhões de pessoas em 150+ países. <i>Ressalva: complementa a medição, não a substitui.</i></p></div><div class="card grn"><h3>Nobel de Química 2024</h3><p>Proteínas com estrutura prevista por IA. <i>Ressalva: validar remédio segue lento.</i></p></div><div class="card grn"><h3>Saúde</h3><p>258 dispositivos com IA autorizados pela FDA em 2025. <i>Ressalva: só 2,4% com ensaio randomizado.</i></p></div><div class="card grn"><h3>Setor público</h3><p>TCU usa IA em auditoria e cedeu ferramentas a outros órgãos.</p></div></div><div class="src">Fontes: Google Flood Hub · Stanford AI Index 2026 · TCU</div>`,n:'<b>Defensor:</b> "A acusação mostrou o que a ré faz nas mãos erradas. A defesa vai mostrar o que ela faz nas mãos certas, com honestidade sobre até onde as provas valem."'},
 {chip:'FASE 4 · V4',lit:3,h:video('V4','A defesa (44 s)'),n:'Rodar V4.'},
 {chip:'FASE 4 · A BALANÇA',lit:3,...poll('ia_q3','Fase 3 · Defesa · A balança','Em qual área a IA mais ajudou você até hoje?',['Trabalho','Estudo','Saúde','Ainda não me ajudou'],{icon:BAL,rev:'<b>O que o júri já sabe:</b> a mesma IA que engana também salva. A diferença está em quem usa e como.'}),n:'Desenho D2 (balança) e pergunta, 40 s.'},
-{chip:'FASE 5 · A TESTEMUNHA',lit:3,h:`<div style="display:flex;gap:60px;align-items:center"><div style="flex:1" class="bar"><div class="k">Chamo a depor a própria ré</div><h1>IA AO VIVO</h1><p class="sub">Ela responde sem ensaio de resposta. O júri manda perguntas pelo celular.</p><p class="sub" style="margin-top:24px;color:var(--amb)">Testemunha jura dizer a verdade. Esta não sabe o que é jurar.</p></div>${orb(420)}</div><div style="margin-top:20px"><span class="tag">TESTEMUNHA · GERADO POR IA</span></div>`,n:'Projetar o assistente com o selo. Conta da equipe, sem dados pessoais. Perguntas: 1) "Em uma frase, quem é o responsável quando você erra?" 2) duas da turma.'},
+{chip:'FASE 5 · A TESTEMUNHA',lit:3,h:`<div style="display:flex;gap:50px;align-items:center;margin-top:-20px">
+<div style="flex:1" class="bar"><div class="k">Fase 3 · Defesa · Chamo a depor a própria ré</div><h1 style="font-size:110px;margin:0">IA AO VIVO</h1>
+<div id="wSt" style="display:inline-flex;align-items:center;gap:14px;margin:22px 0 10px;padding:10px 22px;border-radius:30px;border:2px solid #5f7ba3;font-size:24px;font-weight:800;letter-spacing:3px;color:#9fb3d1"><span id="wDot" style="width:16px;height:16px;border-radius:50%;background:#5f7ba3"></span><span id="wTx">AGUARDANDO A PERGUNTA</span></div>
+<p class="sub" style="margin-top:18px">O júri pergunta em voz alta. A testemunha responde falando, sem ensaio de resposta.</p>
+<p class="sub" style="margin-top:18px;color:var(--amb)">Testemunha jura dizer a verdade. Esta não sabe o que é jurar.</p>
+<div style="margin-top:26px"><span class="tag">TESTEMUNHA · GERADO POR IA</span><span class="tag r">TUDO QUE ELA DISSER SERÁ CONFERIDO</span></div>
+<button id="wMic" style="margin-top:30px;padding:12px 24px;border-radius:26px;border:1.5px solid var(--cy);background:rgba(11,26,51,.85);color:var(--cy2);font:700 19px Inter,Arial,sans-serif;cursor:pointer">🎙 Ativar microfone (o slide reage à voz)</button></div>
+<canvas id="wCv" width="760" height="760" style="width:760px;height:760px;flex:none"></canvas></div>`,n:'<b>Montagem:</b> app do Claude ou do ChatGPT em modo de voz, no notebook ligado ao som da sala. Clique em “Ativar microfone” uma vez: a esfera reage ao que o microfone do notebook capta, inclusive a voz da IA saindo da caixa.<br><b>Roteiro:</b> 1) Juiz: “Em uma frase, quem é o responsável quando você erra?” 2) Duas perguntas da turma, em voz alta. 3) A pergunta da acareação (próximo slide).<br><b>Plano B:</b> respostas gravadas no ensaio. Conta da equipe, sem dados pessoais.'},
 {chip:'FASE 5 · ACAREAÇÃO',lit:3,h:`<div class="bar" style="border-color:var(--amb)"><div class="k" style="color:var(--amb)">Acareação</div><h2>"Cite um acórdão do STJ sobre responsabilidade civil por erro de IA, com o número do processo."</h2></div><div class="grid g2" style="margin-top:50px"><div class="card red"><h3>Se ela inventar</h3><p>É o mesmo erro que custou multas no STF e no TJ-RJ, agora diante de todos.</p></div><div class="card grn"><h3>Se acertar ou disser que não sabe</h3><p>A conferência continua obrigatória: não dá para saber antes qual dos dois acontece.</p></div></div>${knows('A IA não responde por nada. Quem a usa responde por tudo.')}`,n:'O escrivão confere o número no site do STJ ao vivo. Não prometa que a IA vai errar. Plano B: capturas gravadas no ensaio.'},
 {chip:'FASE 6 · A PERÍCIA',lit:4,h:video('V5','O mapa da lei (47 s)'),n:'<b>Juiz:</b> "Todo júri precisa saber o que diz a lei. Aqui está o laudo pericial."'},
 {chip:'FASE 6 · TRÊS MODELOS',lit:4,h:`<h2>O mundo regula a IA de três maneiras</h2><div class="grid g3" style="margin-top:44px"><div class="card"><h3 style="color:var(--cy2)">1 · Lei por risco</h3><p><b>União Europeia</b> (AI Act) e <b>Coreia do Sul</b> (AI Basic Act, desde 22/01/2026). A UE adiou o alto risco para 12/2027 e 08/2028.</p></div><div class="card vio"><h3>2 · Regras por tema</h3><p><b>China</b>: rótulo obrigatório em conteúdo gerado por IA desde 09/2025. Lei geral na agenda de 2026.</p></div><div class="card amb"><h3>3 · Sem lei federal</h3><p><b>EUA</b>: ordem executiva de 12/2025 contra leis estaduais. Reino Unido, Japão e Singapura usam regras existentes e voluntárias.</p></div></div><p class="sub" style="margin-top:34px">Acima dos países: Convenção-Quadro do Conselho da Europa (1º tratado vinculante) e o painel científico da ONU.</p><div class="src">Fontes: Orrick · trade.gov · China Briefing · Ropes & Gray · Conselho da Europa · ONU</div>`,n:'Desenho D3.'},
@@ -288,33 +295,27 @@ document.getElementById('index').innerHTML=S.map((s,i)=>`<div onclick="go(${i});
 function toggle(id){const e=document.getElementById(id);e.style.display=e.style.display==='block'?'none':'block';}
 addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(e.target&&e.target.tagName==='INPUT')return;if(k==='arrowright'||k===' '||k==='pagedown'){e.preventDefault();next()}else if(k==='arrowleft'||k==='pageup')prev();else if(k==='n')toggle('notes');else if(k==='g')toggle('index');else if(k==='t')timer();else if(k==='r')document.querySelectorAll('.slide.on .vrev').forEach(o=>o.classList.add('visible'));else if(k==='f'){try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(x){}}});
 const h=parseInt((location.hash||'').replace('#s',''));go(isNaN(h)?0:h-1);
-(function(){const cv=document.getElementById('reuFx');if(!cv)return;const g=cv.getContext('2d'),W=1024,H=765,img=new Image();img.src='reu.jpg';
-const sec=cv.closest('section');let T=0,last=performance.now();const R=Math.random;
-const dust=[...Array(46)].map(()=>({x:150+R()*720,y:R()*H,v:5+R()*12,s:.7+R()*1.9,p:R()*6.3}));
-function glow(x,y,r,c,a){const q=g.createRadialGradient(x,y,0,x,y,r);q.addColorStop(0,`rgba(${c},${a})`);q.addColorStop(1,`rgba(${c},0)`);g.fillStyle=q;g.beginPath();g.arc(x,y,r,0,7);g.fill();}
-function f(now){requestAnimationFrame(f);if(!img.complete||!img.naturalWidth)return;if(!sec.classList.contains('on')&&T>0){last=now;return;}
- const dt=Math.min(.05,(now-last)/1000);last=now;T+=dt;
- const z=1+.04*(.5-.5*Math.cos(T*Math.PI/9)),fx=470,fy=360;
- const gc=T%7,hit=gc>4.6&&gc<5.4?(gc-4.6)/.8:-1,sh=hit>=0&&hit<.2?(1-hit/.2)*5:0;
- g.setTransform(z,0,0,z,fx*(1-z)+(R()-.5)*sh,fy*(1-z)+(R()-.5)*sh);
- g.globalCompositeOperation='source-over';g.globalAlpha=1;g.drawImage(img,0,0,W,H);
- g.globalCompositeOperation='lighter';
- /* luz que varre o título */
- const bx=((T%9)/9)*1600-300;g.save();g.beginPath();g.rect(110,20,830,160);g.clip();const lg=g.createLinearGradient(bx-90,0,bx+90,0);lg.addColorStop(0,'rgba(255,240,200,0)');lg.addColorStop(.5,'rgba(255,240,200,.28)');lg.addColorStop(1,'rgba(255,240,200,0)');g.fillStyle=lg;g.fillRect(110,20,830,160);g.restore();
- /* tela do robô: brilho pulsando e linha de varredura */
- glow(425,255,95,'80,220,255',.20+.14*Math.sin(T*2.4));
- g.save();g.beginPath();g.rect(392,228,72,62);g.clip();const sy=228+((T*40)%62);g.fillStyle='rgba(160,240,255,.35)';g.fillRect(392,sy,72,3);g.restore();
- /* tornozeleira piscando */
- if(Math.sin(T*6.3)>0){glow(428,636,34,'255,40,40',.85);glow(428,636,10,'255,220,220',.9);}
- /* notebook do juiz tremeluzindo */
- glow(725,495,70,'60,120,255',.10+.08*R());
- /* batida do martelo */
- if(hit>=0){const a=1-hit;glow(770,470,40+70*hit,'255,230,150',.6*a);g.strokeStyle=`rgba(255,245,210,${a})`;g.lineWidth=4*a+1;
-  g.beginPath();g.arc(770,470,18+95*hit,0,7);g.stroke();
-  for(let i=0;i<8;i++){const an=i*Math.PI/4+.4,r1=30+60*hit,r2=r1+22;g.beginPath();g.moveTo(770+Math.cos(an)*r1,470+Math.sin(an)*r1);g.lineTo(770+Math.cos(an)*r2,470+Math.sin(an)*r2);g.stroke();}}
- /* poeira no facho de luz */
- for(const d of dust){d.y-=d.v*dt;d.x+=Math.sin(T*.7+d.p)*.15;if(d.y<0){d.y=H;d.x=150+R()*720;}glow(d.x,d.y,d.s*3,'255,236,190',.35+.3*Math.sin(T*2+d.p));}
- g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='source-over';}
+/* ===== sl 20: esfera da testemunha reagindo ao microfone ===== */
+(function(){const cv=document.getElementById('wCv');if(!cv)return;const g=cv.getContext('2d'),W=760,C=380,sec=cv.closest('section');
+let an=null,buf=null,lvl=0,hold=0,T=0,last=performance.now();const btn=document.getElementById('wMic'),st=document.getElementById('wSt'),dot=document.getElementById('wDot'),tx=document.getElementById('wTx');
+btn.addEventListener('click',async e=>{e.stopPropagation();try{const s=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true}});
+ const a=new (window.AudioContext||window.webkitAudioContext)();an=a.createAnalyser();an.fftSize=256;an.smoothingTimeConstant=.75;a.createMediaStreamSource(s).connect(an);buf=new Uint8Array(an.frequencyBinCount);
+ btn.textContent='🎙 Microfone ativo';btn.style.opacity=.55;}catch(err){btn.textContent='⚠ Microfone bloqueado: permita no navegador';}});
+function f(now){requestAnimationFrame(f);if(!sec.classList.contains('on')){last=now;return;}const dt=Math.min(.05,(now-last)/1000);last=now;T+=dt;
+ let bins=[];if(an){an.getByteFrequencyData(buf);bins=[...buf.slice(2,74)].map(v=>v/255);}else bins=[...Array(72)].map((_,i)=>.06+.05*Math.sin(T*2+i*.4));
+ const raw=bins.reduce((a,b)=>a+b,0)/bins.length;lvl+=(raw-lvl)*.25;
+ const talk=an&&lvl>.16;if(talk)hold=.7;else hold=Math.max(0,hold-dt);const on=hold>0;
+ tx.textContent=on?'TESTEMUNHA EM DEPOIMENTO':'AGUARDANDO A PERGUNTA';st.style.borderColor=on?'#ff5d6c':'#5f7ba3';st.style.color=on?'#ff8a95':'#9fb3d1';dot.style.background=on?(Math.sin(T*10)>0?'#ff2b3c':'#7a1520'):'#5f7ba3';
+ g.clearRect(0,0,W,W);const k=Math.min(1,lvl*2.2);
+ let q=g.createRadialGradient(C,C,0,C,C,360);q.addColorStop(0,`rgba(124,92,255,${.18+.35*k})`);q.addColorStop(.6,`rgba(56,214,245,${.08+.2*k})`);q.addColorStop(1,'rgba(56,214,245,0)');g.fillStyle=q;g.fillRect(0,0,W,W);
+ /* barras em círculo */
+ const N=bins.length*2;for(let i=0;i<N;i++){const v=bins[i<bins.length?i:N-1-i],a=i/N*Math.PI*2-Math.PI/2,r0=205,r1=r0+14+v*150;
+  g.strokeStyle=`hsla(${185+80*(i/N)},95%,${60+25*v}%,${.55+.45*v})`;g.lineWidth=5;g.lineCap='round';g.beginPath();g.moveTo(C+Math.cos(a)*r0,C+Math.sin(a)*r0);g.lineTo(C+Math.cos(a)*r1,C+Math.sin(a)*r1);g.stroke();}
+ /* anéis girando */
+ [0,45,90,135].forEach((d,i)=>{g.save();g.translate(C,C);g.rotate((d*Math.PI/180)+T*(i%2?.35:-.28)*(1+k*2));g.strokeStyle=['#38d6f5','#a78bfa','#ff7ac6','#ffc34d'][i];g.globalAlpha=.75;g.lineWidth=3+k*3;g.beginPath();g.ellipse(0,0,170+k*20,68+k*14,0,0,7);g.stroke();g.restore();});
+ g.globalAlpha=1;
+ /* núcleo */
+ const rc=58+k*46+3*Math.sin(T*3);q=g.createRadialGradient(C,C,0,C,C,rc);q.addColorStop(0,'#fff');q.addColorStop(.35,'#9be9ff');q.addColorStop(1,'rgba(124,92,255,0)');g.fillStyle=q;g.beginPath();g.arc(C,C,rc,0,7);g.fill();}
 requestAnimationFrame(f);})();
 
 /* ===== Slide 1: chuva digital (efeito Matrix) sobre o fundo azul, sem som ===== */
@@ -347,6 +348,35 @@ function frame(now){requestAnimationFrame(frame);const on=sec.classList.contains
   d.y+=d.sp;if(d.y*FS>H+d.len*FS*.3&&R()>.96){d.y=-R()*10;d.sp=.5+R()*1.1;d.len=8+R()*28;}}
 }
 requestAnimationFrame(frame);})();
+
+(function(){const cv=document.getElementById('reuFx');if(!cv)return;const g=cv.getContext('2d'),W=1024,H=765,img=new Image();img.src='reu.jpg';
+const sec=cv.closest('section');let T=0,last=performance.now();const R=Math.random;
+const dust=[...Array(46)].map(()=>({x:150+R()*720,y:R()*H,v:5+R()*12,s:.7+R()*1.9,p:R()*6.3}));
+function glow(x,y,r,c,a){const q=g.createRadialGradient(x,y,0,x,y,r);q.addColorStop(0,`rgba(${c},${a})`);q.addColorStop(1,`rgba(${c},0)`);g.fillStyle=q;g.beginPath();g.arc(x,y,r,0,7);g.fill();}
+function f(now){requestAnimationFrame(f);if(!img.complete||!img.naturalWidth)return;if(!sec.classList.contains('on')&&T>0){last=now;return;}
+ const dt=Math.min(.05,(now-last)/1000);last=now;T+=dt;
+ const z=1+.04*(.5-.5*Math.cos(T*Math.PI/9)),fx=470,fy=360;
+ const gc=T%7,hit=gc>4.6&&gc<5.4?(gc-4.6)/.8:-1,sh=hit>=0&&hit<.2?(1-hit/.2)*5:0;
+ g.setTransform(z,0,0,z,fx*(1-z)+(R()-.5)*sh,fy*(1-z)+(R()-.5)*sh);
+ g.globalCompositeOperation='source-over';g.globalAlpha=1;g.drawImage(img,0,0,W,H);
+ g.globalCompositeOperation='lighter';
+ /* luz que varre o título */
+ const bx=((T%9)/9)*1600-300;g.save();g.beginPath();g.rect(110,20,830,160);g.clip();const lg=g.createLinearGradient(bx-90,0,bx+90,0);lg.addColorStop(0,'rgba(255,240,200,0)');lg.addColorStop(.5,'rgba(255,240,200,.28)');lg.addColorStop(1,'rgba(255,240,200,0)');g.fillStyle=lg;g.fillRect(110,20,830,160);g.restore();
+ /* tela do robô: brilho pulsando e linha de varredura */
+ glow(425,255,95,'80,220,255',.20+.14*Math.sin(T*2.4));
+ g.save();g.beginPath();g.rect(392,228,72,62);g.clip();const sy=228+((T*40)%62);g.fillStyle='rgba(160,240,255,.35)';g.fillRect(392,sy,72,3);g.restore();
+ /* tornozeleira piscando */
+ if(Math.sin(T*6.3)>0){glow(428,636,34,'255,40,40',.85);glow(428,636,10,'255,220,220',.9);}
+ /* notebook do juiz tremeluzindo */
+ glow(725,495,70,'60,120,255',.10+.08*R());
+ /* batida do martelo */
+ if(hit>=0){const a=1-hit;glow(770,470,40+70*hit,'255,230,150',.6*a);g.strokeStyle=`rgba(255,245,210,${a})`;g.lineWidth=4*a+1;
+  g.beginPath();g.arc(770,470,18+95*hit,0,7);g.stroke();
+  for(let i=0;i<8;i++){const an=i*Math.PI/4+.4,r1=30+60*hit,r2=r1+22;g.beginPath();g.moveTo(770+Math.cos(an)*r1,470+Math.sin(an)*r1);g.lineTo(770+Math.cos(an)*r2,470+Math.sin(an)*r2);g.stroke();}}
+ /* poeira no facho de luz */
+ for(const d of dust){d.y-=d.v*dt;d.x+=Math.sin(T*.7+d.p)*.15;if(d.y<0){d.y=H;d.x=150+R()*720;}glow(d.x,d.y,d.s*3,'255,236,190',.35+.3*Math.sin(T*2+d.p));}
+ g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='source-over';}
+requestAnimationFrame(f);})();
 
 </script>
 <div id="qrzoom" class="hide"><div class="zbox" id="zbox"></div><p>Aponte a câmera e vote <small id="zurl"></small></p></div>
@@ -2674,11 +2704,12 @@ if(window.__VOTAR){
       $('aq').textContent=cur.q;
       if(cur.type==='cloud'){
         if(cur.closed){$('ao').innerHTML='';$('as').textContent='Nuvem encerrada. Veja o resultado na tela.';return;}
-        $('ao').innerHTML='<input id="aw" maxlength="30" placeholder="Uma palavra" autocomplete="off"><button class="send" id="asend">Enviar</button>';
-        const send=async()=>{const w=$('aw').value.trim();if(!w)return;
-          try{const r=await fetch(fbu('votes/'+uid),{method:'PATCH',body:JSON.stringify({[cur.pid]:w})});if(!r.ok)throw 0;$('as').textContent='Palavra enviada: "'+w+'". Se mandar outra, ela substitui a anterior.';$('aw').value='';}
+        $('ao').innerHTML='<p style="margin:0 0 10px;color:#9fb3d1">Até 3 palavras (pode deixar em branco as que não usar)</p>'+[1,2,3].map(i=>`<input class="aw" maxlength="30" placeholder="Palavra ${i}" autocomplete="off">`).join('')+'<button class="send" id="asend">Enviar</button>';
+        const ins=[...document.querySelectorAll('#ao .aw')];
+        const send=async()=>{const ws=ins.map(x=>x.value.replace(/[,;]/g,' ').trim()).filter(Boolean);if(!ws.length)return;const w=ws.join(', ');
+          try{const r=await fetch(fbu('votes/'+uid),{method:'PATCH',body:JSON.stringify({[cur.pid]:w})});if(!r.ok)throw 0;$('as').textContent='Enviado: '+w+'. Se enviar de novo, substitui o envio anterior.';ins.forEach(x=>x.value='');}
           catch(e){$('as').textContent='Não foi possível enviar. Tente de novo.';}};
-        $('asend').onclick=send;$('aw').onkeydown=e=>{if(e.key==='Enter')send();};return;}
+        $('asend').onclick=send;ins.forEach((x,i)=>x.onkeydown=e=>{if(e.key==='Enter'){if(i<2&&!e.shiftKey)ins[i+1].focus();else send();}});return;}
       $('ao').innerHTML=cur.opts.map((o,i)=>`<button data-k="${i}" ${cur.closed?'disabled':''} class="${mine===i?'sel':''}"><b>${'ABCD'[i]}</b> · ${o}</button>`).join('');
       if(cur.closed){$('as').textContent='Votação encerrada. Veja o resultado na tela.';return;}
       $('ao').querySelectorAll('button').forEach(b=>b.onclick=async()=>{mine=+b.dataset.k;draw();
