@@ -311,13 +311,11 @@ const ask=()=>{const u=prompt('Cole o link do projeto da depoente (ChatGPT):',ge
 function abrir(){const u=get()||ask();if(!u)return;const sw=screen.availWidth,sh=screen.availHeight,w=Math.round(sw*.46),h=Math.round(sh*.86),l=(screen.availLeft||0)+sw-w-Math.round(sw*.02),t=(screen.availTop||0)+Math.round(sh*.07);
  let win=null;try{win=window.open(u,'depoente',`popup=yes,width=${w},height=${h},left=${l},top=${t}`);}catch(x){}
  if(!win){try{win=window.open(u,'_blank');}catch(x){}}
- if(!win){a.textContent='⚠ Pop-up bloqueado: permita pop-ups neste site';a.href=u;a.target='_blank';window.dispatchEvent(new CustomEvent('convocar'));return;}
+ if(!win){a.textContent='⚠ Pop-up bloqueado: permita pop-ups neste site';a.href=u;a.target='_blank';return;}
  try{win.focus()}catch(x){}
- /* ao voltar para a apresentação (Alt+Tab ou clique), a convocação começa sozinha */
- let armed=true;const fire=()=>{if(!armed||document.visibilityState!=='visible'||!document.hasFocus())return;armed=false;removeEventListener('focus',fire);document.removeEventListener('visibilitychange',fire);setTimeout(()=>window.dispatchEvent(new CustomEvent('convocar')),700);};
- setTimeout(()=>{addEventListener('focus',fire);document.addEventListener('visibilitychange',fire);},500);}
+ a.textContent='▶ Iniciar a convocação';a.dataset.fase='2';}
 /* clique: abre o projeto do ChatGPT (para ligar o modo de voz). Tecla V: convocação encenada com o rosto. */
-a.addEventListener('click',e=>{if(a.target==='_blank')return;e.preventDefault();e.stopPropagation();abrir();});
+a.addEventListener('click',e=>{if(a.target==='_blank')return;e.preventDefault();e.stopPropagation();if(a.dataset.fase==='2'||e.altKey){window.dispatchEvent(new CustomEvent('convocar'));return;}abrir();});
 c.addEventListener('click',e=>{e.stopPropagation();ask();});})();
 /* ===== sl 20: esfera da testemunha reagindo ao microfone ===== */
 (function(){const cv=document.getElementById('wCv');if(!cv)return;const g=cv.getContext('2d'),W=760,C=380,sec=cv.closest('section');
