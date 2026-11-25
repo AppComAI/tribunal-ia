@@ -186,6 +186,18 @@ section.poll.cloud .vqrbox { width:220px; height:220px; }
 section.poll.cloud:has(.vrev.visible) .vw { cursor:default; }
 
 
+.rxG{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.rxT{position:relative;aspect-ratio:4/3;border-radius:18px;overflow:hidden;border:2px solid rgba(56,214,245,.35);background:#000;padding:0;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s}
+.rxT img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.82)}
+.rxT:hover{transform:scale(1.02);border-color:var(--cy2);box-shadow:0 0 26px rgba(56,214,245,.45)}
+.rxT.visto{border-color:var(--grn)}.rxT.visto .rxP{background:rgba(62,230,168,.9)}
+.rxN{position:absolute;left:14px;top:12px;width:48px;height:48px;border-radius:50%;background:rgba(6,18,42,.85);border:2px solid var(--cy2);color:#fff;font:900 26px Inter,Arial,sans-serif;display:grid;place-items:center}
+.rxC{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 12px;background:linear-gradient(transparent,rgba(0,0,0,.85));color:#eaf2ff;font:700 21px Inter,Arial,sans-serif;text-align:left}
+.rxP{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:78px;height:78px;border-radius:50%;background:rgba(56,214,245,.85);color:#06233a;font-size:34px;display:grid;place-items:center;padding-left:6px}
+#rxO{position:absolute;left:0;top:0;width:1920px;height:1080px;background:#000;z-index:9;display:none}
+#rxO video{width:100%;height:100%;object-fit:contain;background:#000}
+#rxX{position:absolute;right:40px;top:30px;color:#9fb3d1;font:700 20px Inter,Arial,sans-serif;background:rgba(0,0,0,.5);padding:8px 16px;border-radius:20px}
+
 /* setas 3D no canto superior direito */
 .nav3d{position:absolute;top:10px;width:82px;height:82px;border:0;background:none;padding:0;cursor:pointer;z-index:7;transition:transform .15s,filter .25s}
 .nav3d img{position:absolute;inset:0;width:100%;height:100%;transition:opacity .25s}
@@ -246,7 +258,7 @@ const S=[
 {chip:'FASE 2 · PERGUNTA',lit:2,...poll('ia_q2','Fase 2 · Acusação · Sua vez','Qual acusação pesa mais para você?',['Enganar (deepfake e fraude)','Errar sem avisar (alucinação)','Consumir energia','Tirar empregos'],{rev:'<b>O que o júri já sabe:</b> os danos já estão registrados. Não são ficção científica.'}),n:'40 s.'},
 {chip:'FASE 3 · PROVAS DA ACUSAÇÃO',lit:2,h:`<h2>Quatro provas, todas documentadas</h2><div class="grid g2" style="margin-top:40px"><div class="card red"><h3>1 · Fraude com deepfake</h3><p>Rosto e voz clonados viraram "modelo de negócio" de golpes.</p></div><div class="card red"><h3>2 · A petição fantasma</h3><p>STF, TJ-RJ e TJ-PA já puniram jurisprudência inventada por IA.</p></div><div class="card red"><h3>3 · O ataque quase sem humano</h3><p>IA executou 80–90% de uma campanha de ciberespionagem (relato da Anthropic, contestado por pesquisadores).</p></div><div class="card red"><h3>4 · A conta de luz</h3><p>Consumo dos data centers deve dobrar até 2030: ~945 TWh, mais que o Japão inteiro hoje.</p></div></div><div class="src">Fontes: AI Incident Database · CartaCapital · Conjur · Anthropic · IEA</div>`,n:'Na prova 3, diga que a empresa que relatou é a mesma que fez a IA usada na preparação. Casos de chatbots e adolescentes ficam fora da tela.'},
 {chip:'FASE 3 · V3',lit:2,h:video('V3','A petição fantasma (42 s)'),n:'Rodar V3.'},
-{chip:'FASE 3 · GAME',lit:2,h:`<div class="k">Game show</div><h1>REAL OU IA?</h1><div class="grid g3" style="margin-top:50px"><div class="card"><h3>Rodada 1 · Imagem</h3><p>Duas fotos do campus. Uma tirada pela equipe, outra gerada por IA.</p></div><div class="card"><h3>Rodada 2 · Áudio</h3><p>A mesma frase: voz real de um integrante (autorizada) × voz de catálogo, não clonada.</p></div><div class="card"><h3>Rodada 3 · Texto</h3><p>Dois parágrafos: um da equipe, outro da IA.</p></div></div>${knows('Ver já não é crer. E a IA erra com toda a confiança.')}`,n:'40 s por rodada, placar da turma no fim. Material das rodadas ainda a produzir.'},
+{chip:'FASE 2 · REAL OU IA?',lit:2,h:`<div style="display:grid;grid-template-columns:600px 1fr;gap:60px;align-items:start;margin-top:-30px"><div><div class="k">Prova da acusação</div><h1 style="font-size:96px;line-height:1">REAL<br>OU IA?</h1><p class="sub" style="margin-top:26px">Quatro vídeos. Em cada um, cenas reais e cenas feitas por IA, lado a lado ou em sequência.</p><p class="sub" style="margin-top:18px;color:var(--amb)">Antes de o vídeo revelar: qual é a real? Levante a mão.</p><p style="margin-top:30px;color:#8aa0c2;font-size:20px">Clique num vídeo para assistir com som · Esc volta</p></div><div class="rxG"><button class="rxT" data-v="rx1.mp4" style="--i:1"><img src="rx1_capa.jpg" alt="Vídeo 1: O carro, o barco e a namorada"><span class="rxN">1</span><span class="rxC">O carro, o barco e a namorada</span><span class="rxP">▶</span></button><button class="rxT" data-v="rx2.mp4" style="--i:2"><img src="rx2_capa.jpg" alt="Vídeo 2: A mansão e a Ferrari"><span class="rxN">2</span><span class="rxC">A mansão e a Ferrari</span><span class="rxP">▶</span></button><button class="rxT" data-v="rx3.mp4" style="--i:3"><img src="rx3_capa.jpg" alt="Vídeo 3: Olho, rosto, onça e praia"><span class="rxN">3</span><span class="rxC">Olho, rosto, onça e praia</span><span class="rxP">▶</span></button><button class="rxT" data-v="rx4.mp4" style="--i:4"><img src="rx4_capa.jpg" alt="Vídeo 4: A videochamada"><span class="rxN">4</span><span class="rxC">A videochamada</span><span class="rxP">▶</span></button></div></div><div class="fragment">${knows('Ver já não é crer. E a IA engana com toda a confiança.')}</div><div id="rxO"><video id="rxV" playsinline controls></video><span id="rxX">Esc · voltar</span></div>`,n:'Clique em cada vídeo (abre em tela cheia, com som). Pergunte antes da revelação: qual é a real? Esc volta ao grid. Depois dos 4, seta → mostra “Ver já não é crer”. Vídeo 4 é deepfake em tempo real com rostos de pessoas públicas: deixe claro que é exemplo da ameaça.'},
 {chip:'FASE 4 · PROVAS DA DEFESA',lit:3,h:`<div class="bar" style="border-color:var(--grn)"><div class="k" style="color:var(--grn)">A defesa</div><h2>Nas mãos certas, a ré já entrega</h2></div><div class="grid g2" style="margin-top:40px"><div class="card grn"><h3>Cheias avisadas</h3><p>Previsões para 2 bilhões de pessoas em 150+ países. <i>Ressalva: complementa a medição, não a substitui.</i></p></div><div class="card grn"><h3>Nobel de Química 2024</h3><p>Proteínas com estrutura prevista por IA. <i>Ressalva: validar remédio segue lento.</i></p></div><div class="card grn"><h3>Saúde</h3><p>258 dispositivos com IA autorizados pela FDA em 2025. <i>Ressalva: só 2,4% com ensaio randomizado.</i></p></div><div class="card grn"><h3>Setor público</h3><p>TCU usa IA em auditoria e cedeu ferramentas a outros órgãos.</p></div></div><div class="src">Fontes: Google Flood Hub · Stanford AI Index 2026 · TCU</div>`,n:'<b>Defensor:</b> "A acusação mostrou o que a ré faz nas mãos erradas. A defesa vai mostrar o que ela faz nas mãos certas, com honestidade sobre até onde as provas valem."'},
 {chip:'FASE 4 · V4',lit:3,h:video('V4','A defesa (44 s)'),n:'Rodar V4.'},
 {chip:'FASE 4 · A BALANÇA',lit:3,...poll('ia_q3','Fase 3 · Defesa · A balança','Em qual área a IA mais ajudou você até hoje?',['Trabalho','Estudo','Saúde','Ainda não me ajudou'],{icon:BAL,rev:'<b>O que o júri já sabe:</b> a mesma IA que engana também salva. A diferença está em quem usa e como.'}),n:'Desenho D2 (balança) e pergunta, 40 s.'},
@@ -440,6 +452,17 @@ function f(now){requestAnimationFrame(f);if(!img.complete||!img.naturalWidth)ret
  for(const d of dust){d.y-=d.v*dt;d.x+=Math.sin(T*.7+d.p)*.15;if(d.y<0){d.y=H;d.x=430+R()*580;}glow(d.x,d.y,d.s*3,'255,236,190',.35+.3*Math.sin(T*2+d.p));}
  g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='source-over';}
 requestAnimationFrame(f);})();
+
+/* ===== sl 16: Real ou IA? ===== */
+(function(){const O=document.getElementById('rxO'),V=document.getElementById('rxV');if(!O)return;const sec=O.closest('section');
+const abrir=t=>{V.src=t.dataset.v;O.style.display='block';t.classList.add('visto');V.currentTime=0;V.play().catch(()=>{});};
+const fechar=()=>{V.pause();O.style.display='none';};
+sec.querySelectorAll('.rxT').forEach(t=>t.addEventListener('click',e=>{e.stopPropagation();abrir(t);}));
+O.addEventListener('click',e=>{if(e.target===O)fechar();});
+addEventListener('keydown',e=>{if(O.style.display!=='block')return;if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();fechar();}
+ else if(e.key===' '){e.preventDefault();e.stopImmediatePropagation();V.paused?V.play():V.pause();}
+ else if(['ArrowRight','ArrowLeft','PageDown','PageUp'].includes(e.key)){e.preventDefault();e.stopImmediatePropagation();}},true);
+new MutationObserver(()=>{if(!sec.classList.contains('on'))fechar();}).observe(sec,{attributes:true,attributeFilter:['class']});})();
 
 </script>
 <div id="qrzoom" class="hide"><div class="zbox" id="zbox"></div><p>Aponte a câmera e vote <small id="zurl"></small></p></div>
