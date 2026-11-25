@@ -212,7 +212,7 @@ section.poll.cloud:has(.vrev.visible) .vw { cursor:default; }
  <div class="timer" id="timer">40</div>
  <div id="slides"></div>
  <div id="num"></div>
- <div id="help">← → navegar · N notas · G índice · T cronômetro · A–D votos · F tela cheia</div>
+ <div id="help">← → navegar · N notas · G índice · T cronômetro · B depoente · F tela cheia</div>
  <button class="nav3d" style="right:132px" onclick="prev()" title="Voltar (←)"><img src="nav_prev.png" alt="Voltar"><img class="gl" src="nav_prev_glow.png" alt=""></button><button class="nav3d" style="right:40px" onclick="next()" title="Avançar (→)"><img src="nav_next.png" alt="Avançar"><img class="gl" src="nav_next_glow.png" alt=""></button>
  <div id="notes"></div>
  <div id="index"></div>
@@ -270,15 +270,15 @@ const S=[
 <div style="margin-top:26px"><span class="tag">TESTEMUNHA · GERADO POR IA</span><span class="tag r">TUDO QUE ELA DISSER SERÁ CONFERIDO</span></div>
 <a id="wCall" href="#" style="display:inline-flex;align-items:center;gap:12px;margin:30px 16px 0 0;padding:14px 30px;border-radius:30px;background:linear-gradient(90deg,#ffc34d,#ff9f43);color:#1a1205;font:900 22px Inter,Arial,sans-serif;letter-spacing:1px;text-decoration:none;box-shadow:0 0 24px rgba(255,195,77,.45)">⚖ Convocar a depoente</a><button id="wCfg" title="Trocar o link do projeto (Shift+clique no botão abre em aba)" style="margin-right:16px;border:none;background:none;color:#8aa0c2;font-size:24px;cursor:pointer">⚙</button><button id="wSys" title="Escolha a aba ou a tela onde a IA fala e marque Compartilhar áudio" style="margin:30px 12px 0 0;padding:12px 22px;border-radius:26px;border:1.5px solid var(--grn);background:rgba(11,26,51,.85);color:var(--grn);font:700 19px Inter,Arial,sans-serif;cursor:pointer">🔊 Ouvir só a voz da IA</button><button id="wMic" style="margin-top:30px;padding:12px 24px;border-radius:26px;border:1.5px solid var(--cy);background:rgba(11,26,51,.85);color:var(--cy2);font:700 19px Inter,Arial,sans-serif;cursor:pointer">🎙 Ativar microfone (o slide reage à voz)</button></div>
 <canvas id="wCv" width="760" height="760" style="width:760px;height:760px;flex:none"></canvas></div>
-<div id="depo" style="position:absolute;left:0;top:0;width:1920px;height:1080px;z-index:9;display:none;overflow:hidden;background:#000;cursor:pointer">
+<div id="depo" style="position:absolute;left:0;top:0;width:1920px;height:1080px;z-index:9;display:none;overflow:hidden;background:#000">
 <img id="dpT" src="reu.jpg" alt="" style="position:absolute;left:0;top:-177px;width:1920px;height:1434px;transform-origin:666px 431px;transition:transform 2.8s cubic-bezier(.6,0,.3,1),opacity .9s;opacity:0">
 <div id="dpF" style="position:absolute;inset:0;opacity:0;transition:opacity 1s">
-<img src="depoente_poster.jpg" alt="" style="position:absolute;left:-5%;top:-5%;width:110%;height:110%;object-fit:cover;filter:blur(38px) brightness(.45)">
-<div id="dpB" style="position:absolute;left:585px;top:0;width:750px;height:1080px;animation:dpbr 6s ease-in-out infinite;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 86%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 86%,transparent 100%)">
-<video id="dpV" src="depoente.mp4" poster="depoente_poster.jpg" muted playsinline preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+<img src="depoente_hd.jpg" alt="" style="position:absolute;left:-5%;top:-5%;width:110%;height:110%;object-fit:cover;filter:blur(38px) brightness(.45)">
+<div id="dpB" style="position:absolute;left:557px;top:0;width:806px;height:1080px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%)">
+<canvas id="dpC" width="896" height="1200" role="img" aria-label="Depoente: rosto gerado por IA" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
 <div style="position:absolute;inset:0;box-shadow:inset 0 0 90px 50px rgba(0,0,0,.85)"></div></div>
 <div style="position:absolute;left:0;right:0;bottom:46px;text-align:center"><span id="dpS" style="display:inline-flex;align-items:center;gap:12px;padding:10px 26px;border-radius:30px;background:rgba(0,0,0,.55);border:2px solid #ff5d6c;color:#ff8a95;font:800 22px Inter,Arial,sans-serif;letter-spacing:3px"><span id="dpD" style="width:14px;height:14px;border-radius:50%;background:#ff2b3c"></span>TESTEMUNHA EM DEPOIMENTO · IMAGEM GERADA POR IA</span><span id="dpQ" style="display:none;margin-left:14px;align-items:center;padding:10px 18px;border-radius:30px;background:rgba(0,0,0,.55);border:2px solid #ffc34d;color:#ffc34d;font:800 20px Inter,Arial,sans-serif;letter-spacing:2px">O JÚRI PERGUNTA</span></div></div></div>
-<style>@keyframes dpbr{0%,100%{transform:scale(1)}50%{transform:scale(1.015)}}</style>`,n:'<b>Montagem:</b> app do Claude ou do ChatGPT em modo de voz, no notebook ligado ao som da sala. <b>Convocação:</b> clique em “Convocar a depoente”: abre o projeto do ChatGPT (ligue o modo de voz). Ao voltar para a apresentação (Alt+Tab ou clique nela), a cena começa sozinha; a tecla V também a dispara: o slide fala “Oficial de justiça… apresente-se ao júri”, liga o microfone e mostra o rosto da depoente; a IA ouve e se apresenta. Clique em “Ativar microfone” uma vez: a esfera reage ao que o microfone do notebook capta, inclusive a voz da IA saindo da caixa.<br><b>Roteiro:</b> 1) Juiz: “Em uma frase, quem é o responsável quando você erra?” 2) Duas perguntas da turma, em voz alta. 3) A pergunta da acareação (próximo slide).<br><b>Depoente na tela:</b> durante a fala do oficial, a cena do tribunal aparece, aproxima-se do rosto e o vídeo do rosto anda enquanto há voz no microfone e para numa pausa natural (boca fechada) quando a voz cessa. Esc ou clique fecha e volta ao slide.<br><b>Boca só com a voz da IA:</b> com a IA no navegador deste notebook, clique “Ouvir só a voz da IA”, escolha a aba do ChatGPT (ou a tela inteira) e marque “Compartilhar áudio”: o slide passa a ouvir só a IA, não a sala. Com a IA no celular, use a tecla Q: liga/desliga “o júri pergunta” (boca parada).<br><b>Caixa Bluetooth:</b> com “Ouvir só a voz da IA”, a boca espera o atraso do Bluetooth (padrão 250 ms). Teclas [ e ] ajustam de 50 em 50 ms; o valor fica salvo neste navegador.<br><b>Plano B:</b> respostas gravadas no ensaio. Conta da equipe, sem dados pessoais.'},
+<style>@keyframes dpbr{0%,100%{transform:scale(1)}50%{transform:scale(1.015)}}</style>`,n:'<b>Montagem:</b> app do Claude ou do ChatGPT em modo de voz, no notebook ligado ao som da sala. <b>Convocação:</b> clique em “Convocar a depoente”: abre o projeto do ChatGPT (ligue o modo de voz). Ao voltar para a apresentação (Alt+Tab ou clique nela), a cena começa sozinha; a tecla V também a dispara: o slide fala “Oficial de justiça… apresente-se ao júri”, liga o microfone e mostra o rosto da depoente; a IA ouve e se apresenta. Clique em “Ativar microfone” uma vez: a esfera reage ao que o microfone do notebook capta, inclusive a voz da IA saindo da caixa.<br><b>Roteiro:</b> 1) Juiz: “Em uma frase, quem é o responsável quando você erra?” 2) Duas perguntas da turma, em voz alta. 3) A pergunta da acareação (próximo slide).<br><b>Depoente na tela:</b> durante a fala do oficial, a cena do tribunal aparece, aproxima-se do rosto e o vídeo do rosto anda enquanto há voz no microfone e para numa pausa natural (boca fechada) quando a voz cessa. Esc esconde (clique não esconde mais). Em qualquer slide: B mostra/esconde; B e logo A = mostra e o slide fala “Depoente, retorne”. Voz: “Depoente, retorne”, “Depoente, retire-se”, “Boa sorte”.<br><b>Boca só com a voz da IA:</b> com a IA no navegador deste notebook, clique “Ouvir só a voz da IA”, escolha a aba do ChatGPT (ou a tela inteira) e marque “Compartilhar áudio”: o slide passa a ouvir só a IA, não a sala. Com a IA no celular, use a tecla Q: liga/desliga “o júri pergunta” (boca parada).<br><b>Caixa Bluetooth:</b> com “Ouvir só a voz da IA”, a boca espera o atraso do Bluetooth (padrão 250 ms). Teclas [ e ] ajustam de 50 em 50 ms; o valor fica salvo neste navegador.<br><b>Plano B:</b> respostas gravadas no ensaio. Conta da equipe, sem dados pessoais.'},
 {chip:'FASE 5 · ACAREAÇÃO',lit:3,h:`<div class="bar" style="border-color:var(--amb)"><div class="k" style="color:var(--amb)">Acareação</div><h2>"Cite um acórdão do STJ sobre responsabilidade civil por erro de IA, com o número do processo."</h2></div><div class="grid g2" style="margin-top:50px"><div class="card red"><h3>Se ela inventar</h3><p>É o mesmo erro que custou multas no STF e no TJ-RJ, agora diante de todos.</p></div><div class="card grn"><h3>Se acertar ou disser que não sabe</h3><p>A conferência continua obrigatória: não dá para saber antes qual dos dois acontece.</p></div></div>${knows('A IA não responde por nada. Quem a usa responde por tudo.')}`,n:'O escrivão confere o número no site do STJ ao vivo. Não prometa que a IA vai errar. Plano B: capturas gravadas no ensaio.'},
 {chip:'FASE 6 · A PERÍCIA',lit:4,h:video('V5','O mapa da lei (47 s)'),n:'<b>Juiz:</b> "Todo júri precisa saber o que diz a lei. Aqui está o laudo pericial."'},
 {chip:'FASE 6 · TRÊS MODELOS',lit:4,h:`<h2>O mundo regula a IA de três maneiras</h2><div class="grid g3" style="margin-top:44px"><div class="card"><h3 style="color:var(--cy2)">1 · Lei por risco</h3><p><b>União Europeia</b> (AI Act) e <b>Coreia do Sul</b> (AI Basic Act, desde 22/01/2026). A UE adiou o alto risco para 12/2027 e 08/2028.</p></div><div class="card vio"><h3>2 · Regras por tema</h3><p><b>China</b>: rótulo obrigatório em conteúdo gerado por IA desde 09/2025. Lei geral na agenda de 2026.</p></div><div class="card amb"><h3>3 · Sem lei federal</h3><p><b>EUA</b>: ordem executiva de 12/2025 contra leis estaduais. Reino Unido, Japão e Singapura usam regras existentes e voluntárias.</p></div></div><p class="sub" style="margin-top:34px">Acima dos países: Convenção-Quadro do Conselho da Europa (1º tratado vinculante) e o painel científico da ONU.</p><div class="src">Fontes: Orrick · trade.gov · China Briefing · Ropes & Gray · Conselho da Europa · ONU</div>`,n:'Desenho D3.'},
@@ -346,7 +346,7 @@ function ligar(stream){try{if(!ctxA)ctxA=new (window.AudioContext||window.webkit
  an=ctxA.createAnalyser();an.fftSize=256;an.smoothingTimeConstant=.75;srcN=ctxA.createMediaStreamSource(stream);
  /* atraso: o áudio da aba sai antes do som da caixa Bluetooth; a boca espera o mesmo tempo */
  dly=ctxA.createDelay(2);dly.delayTime.value=ATR;srcN.connect(dly);dly.connect(an);buf=new Uint8Array(an.frequencyBinCount);}catch(e){}}
-addEventListener('keydown',e=>{if(!sec.classList.contains('on')||!dly)return;const k=e.key;if(k!=='['&&k!==']')return;
+addEventListener('keydown',e=>{if((!sec.classList.contains('on')&&!dOn)||!dly)return;const k=e.key;if(k!=='['&&k!==']')return;
  ATR=Math.max(0,Math.min(1.5,Math.round((ATR+(k===']'?.05:-.05))*100)/100));dly.delayTime.value=ATR;try{localStorage.setItem('tia_atraso',ATR)}catch(x){}
  sys.textContent='🔊 Ouvindo só a IA · atraso '+Math.round(ATR*1000)+' ms';});
 async function sistema(){try{const s=await navigator.mediaDevices.getDisplayMedia({video:true,audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},systemAudio:'include',selfBrowserSurface:'exclude'});
@@ -355,30 +355,68 @@ async function sistema(){try{const s=await navigator.mediaDevices.getDisplayMedi
  ligar(new MediaStream(au));sys.textContent='🔊 Ouvindo só a IA · atraso '+Math.round(ATR*1000)+' ms';sys.style.opacity=.6;btn.textContent='🎙 Microfone desligado';btn.style.opacity=.4;
  au[0].addEventListener('ended',()=>{sys.textContent='🔊 Ouvir só a voz da IA';sys.style.opacity=1;an=null;});}catch(e){sys.textContent='⚠ Compartilhamento cancelado';}}
 const sys=document.getElementById('wSys');sys.addEventListener('click',e=>{e.stopPropagation();sistema();});
-addEventListener('keydown',e=>{if(sec.classList.contains('on')&&e.key.toLowerCase()==='q'&&!e.ctrlKey&&!e.metaKey){juri=!juri;const b=document.getElementById('dpQ');if(b)b.style.display=juri?'inline-flex':'none';}});
+addEventListener('keydown',e=>{if((sec.classList.contains('on')||dOn)&&e.key.toLowerCase()==='q'&&!e.ctrlKey&&!e.metaKey){juri=!juri;const b=document.getElementById('dpQ');if(b)b.style.display=juri?'inline-flex':'none';}});
 async function mic(){if(an)return;try{const s=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true}});
  const a=new (window.AudioContext||window.webkitAudioContext)();an=a.createAnalyser();an.fftSize=256;an.smoothingTimeConstant=.75;a.createMediaStreamSource(s).connect(an);buf=new Uint8Array(an.frequencyBinCount);
  btn.textContent='🎙 Microfone ativo';btn.style.opacity=.55;}catch(err){btn.textContent='⚠ Microfone bloqueado: permita no navegador';}}
-const DP=document.getElementById('depo'),dT=document.getElementById('dpT'),dF=document.getElementById('dpF'),dV=document.getElementById('dpV'),dD=document.getElementById('dpD');
-const QT='000000000000000000000000000100000010010000000000011100000000000011000000101111111111111111110000000000000000000000000000000000110001000000000000000000000100101000111001001100000000111101111111111111111111111100000000000011000010000010000000000010000000000000001000010000010000011111111111111111111111000100000000000000000000011000000000001100000100000000000000001000000000001001001000111111111111',L0=36/25,L1=383/25;let spk=0;
-let dOn=false,mouth=0,mT=0,floor=.05;
-function depo(D){if(!sec.classList.contains('on')||dOn)return;dOn=true;const zt=(D&&isFinite(D))?Math.max(1.2,Math.min(2.8,D-2.3)):2.8;dT.style.transition=`transform ${zt}s cubic-bezier(.6,0,.3,1),opacity .6s`;try{dV.pause();dV.currentTime=L0;}catch(e){}DP.style.display='block';dT.style.transform='scale(1)';dT.style.opacity='0';dF.style.opacity='0';
+const DP=document.getElementById('depo'),dT=document.getElementById('dpT'),dF=document.getElementById('dpF'),dD=document.getElementById('dpD');
+{const stg=document.getElementById('stage');if(stg&&DP.parentNode!==stg)stg.appendChild(DP);}
+let dOn=false,floor=.05,amp=0,wide=.5;
+/* ---- rosto desenhado: vão entre os lábios que abre com o volume e muda de forma com o timbre ---- */
+const FI=new Image();FI.src='depoente_hd.jpg';const fc=document.getElementById('dpC'),fg=fc.getContext('2d');let LB=null,UB=null;
+function bloco(x,y,w,h,fx,top,bot){const c=document.createElement('canvas');c.width=w;c.height=h;const k=c.getContext('2d');k.drawImage(FI,x,y,w,h,0,0,w,h);k.globalCompositeOperation='destination-in';
+ let q=k.createLinearGradient(0,0,w,0);q.addColorStop(0,'rgba(0,0,0,0)');q.addColorStop(fx/w,'#000');q.addColorStop(1-fx/w,'#000');q.addColorStop(1,'rgba(0,0,0,0)');k.fillStyle=q;k.fillRect(0,0,w,h);
+ q=k.createLinearGradient(0,0,0,h);q.addColorStop(0,top?'rgba(0,0,0,0)':'#000');q.addColorStop(top?top/h:0,'#000');q.addColorStop(bot?1-bot/h:1,'#000');q.addColorStop(1,bot?'rgba(0,0,0,0)':'#000');k.fillStyle=q;k.fillRect(0,0,w,h);return c;}
+function blocoLab(){const w=300,h=190,c=document.createElement('canvas');c.width=w;c.height=h;const k=c.getContext('2d');k.drawImage(FI,340,778,w,h,0,0,w,h);k.globalCompositeOperation='destination-in';
+ k.save();k.translate(148,0);k.scale(1,1.25);const q=k.createRadialGradient(0,0,0,0,0,118);q.addColorStop(0,'#000');q.addColorStop(.72,'#000');q.addColorStop(1,'rgba(0,0,0,0)');k.fillStyle=q;k.fillRect(-150,0,300,h);k.restore();return c;}
+FI.onload=()=>{LB=blocoLab();UB=bloco(392,712,196,66,40,24,0);};
+window.__rostoTeste=(a,w)=>{amp=a;wide=w;rosto(1);};
+const LY=777,MX=488;
+function rosto(t){if(!FI.complete||!LB)return;const d=amp*17,lift=amp*2.2;
+ fg.setTransform(1,0,0,1,0,0);fg.clearRect(0,0,896,1200);
+ const r=Math.sin(t*.6)*.008+Math.sin(t*1.7)*.003,sc=1+.006*Math.sin(t*1.3),ty=Math.sin(t*.9)*3+amp*4;
+ fg.translate(448,600+ty);fg.rotate(r);fg.scale(sc,sc);fg.translate(-448,-600);fg.drawImage(FI,0,0,896,1200);
+ if(d>.6){const sp=98-16*(1-wide),L0=MX-sp,R0=MX+sp,prof=x=>{const u=(x-MX)/sp;return Math.abs(u)>=1?0:Math.pow(Math.cos(u*Math.PI/2),1.4);};
+  fg.save();fg.filter='blur(1px)';fg.beginPath();fg.moveTo(L0,LY);
+  for(let x=L0;x<=R0;x+=4)fg.lineTo(x,LY-d*.12*prof(x));for(let x=R0;x>=L0;x-=4)fg.lineTo(x,LY+d*prof(x));fg.closePath();fg.clip();
+  let q=fg.createRadialGradient(MX,LY+d*.4,0,MX,LY+d*.4,sp);q.addColorStop(0,'#0d0304');q.addColorStop(.5,'#1d0708');q.addColorStop(.85,'#3a1214');q.addColorStop(1,'#5e2a2a');fg.fillStyle=q;fg.fillRect(L0-2,LY-d,sp*2+4,d*2+4);
+  if(d>6){const th=Math.min(d*.22,5);q=fg.createLinearGradient(0,LY-2,0,LY-2+th);q.addColorStop(0,'rgba(232,224,216,.6)');q.addColorStop(1,'rgba(150,135,128,0)');fg.fillStyle=q;fg.beginPath();fg.ellipse(MX,LY-2,sp*.5,th,0,0,Math.PI);fg.fill();}
+  if(d>10){q=fg.createRadialGradient(MX,LY+d*.75,0,MX,LY+d*.75,sp*.55);q.addColorStop(0,'rgba(120,45,50,.5)');q.addColorStop(1,'rgba(120,45,50,0)');fg.fillStyle=q;fg.fillRect(L0,LY,sp*2,d);}
+  fg.filter='none';fg.restore();
+  /* lábio de cima sobe um pouco no centro; lábio de baixo e queixo descem, menos nos cantos */
+  for(let x=0;x<196;x+=6){const ax=392+x,w=Math.min(7,196-x);fg.drawImage(UB,x,0,w,66,ax,712-lift*prof(ax+3),w,66);}
+  for(let x=0;x<300;x+=6){const ax=340+x,w=Math.min(7,300-x);fg.drawImage(LB,x,0,w,190,ax,778+d*prof(ax+3),w,190);}}}
+function depo(D){if(dOn)return;dOn=true;ouvir();const zt=(D&&isFinite(D))?Math.max(1.2,Math.min(2.8,D-2.3)):2.8;dT.style.transition=`transform ${zt}s cubic-bezier(.6,0,.3,1),opacity .6s`;DP.style.display='block';dT.style.transform='scale(1)';dT.style.opacity='0';dF.style.transition='opacity 1s';dF.style.opacity='0';
  requestAnimationFrame(()=>requestAnimationFrame(()=>{dT.style.opacity='1';const z0=(D&&isFinite(D))?Math.max(.3,D-1.5-zt-.3):.3;setTimeout(()=>{dT.style.transform='scale(3.6)';},z0*1000);setTimeout(()=>{dF.style.opacity='1';},(z0+zt)*1000-300);}));}
-function depoOff(){dOn=false;try{dV.pause()}catch(e){};DP.style.display='none';dF.style.opacity='0';}
-DP.addEventListener('click',e=>{e.stopPropagation();depoOff();});
-addEventListener('keydown',e=>{if(dOn&&e.key==='Escape'){e.preventDefault();e.stopPropagation();depoOff();}},true);
+function depoJa(){if(dOn)return;dOn=true;ouvir();DP.style.display='block';dT.style.transition='none';dT.style.opacity='0';dF.style.transition='opacity .45s';dF.style.opacity='0';requestAnimationFrame(()=>requestAnimationFrame(()=>{dF.style.opacity='1';}));}
+function depoOff(){if(!dOn)return;dOn=false;dF.style.transition='opacity .4s';dF.style.opacity='0';setTimeout(()=>{if(!dOn)DP.style.display='none';},420);}
+function falar(txt){try{const sy=speechSynthesis;sy.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang='pt-BR';u.rate=.95;const v=sy.getVoices().filter(x=>/pt[-_]BR/i.test(x.lang));if(v[0])u.voice=v.find(x=>/Google|Microsoft/.test(x.name))||v[0];ofi=true;const fim=()=>setTimeout(()=>{ofi=false;},250);u.onend=fim;u.onerror=fim;setTimeout(fim,5000);sy.speak(u);}catch(e){}}
+/* ---- teclas: B mostra/esconde · B depois A chama em voz alta · Esc esconde ---- */
+let bT=null;
+addEventListener('keydown',e=>{const tg=e.target&&e.target.tagName;if(tg==='INPUT'||tg==='TEXTAREA'||e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();
+ if(k==='b'){e.preventDefault();e.stopImmediatePropagation();if(bT)return;bT=setTimeout(()=>{bT=null;dOn?depoOff():depoJa();},450);}
+ else if(k==='a'&&bT){e.preventDefault();e.stopImmediatePropagation();clearTimeout(bT);bT=null;depoJa();falar('Depoente, retorne.');}
+ else if(e.key==='Escape'&&dOn){e.preventDefault();e.stopImmediatePropagation();depoOff();}},true);
+/* ---- comandos de voz: "Depoente, retorne" · "Depoente, retire-se" · "Boa sorte" ---- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let rec=null,recOn=false,recNo=false,lastCmd=0;
+const norm=x=>x.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z ]/g,' ').replace(/\s+/g,' ');
+function cmd(t){if(Date.now()-lastCmd<2500)return;
+ if(/depoente\s*(,\s*)?retorn/.test(t)||/\bboa sorte\b/.test(t)){lastCmd=Date.now();depoJa();}
+ else if(/depoente\s*(,\s*)?retir/.test(t)){lastCmd=Date.now();depoOff();}}
+function ouvir(){if(!SR||recOn||recNo)return;try{rec=new SR();rec.lang='pt-BR';rec.continuous=true;rec.interimResults=true;
+ rec.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++)cmd(norm(e.results[i][0].transcript));};
+ rec.onerror=ev=>{if(ev.error==='not-allowed'||ev.error==='service-not-allowed')recNo=true;};
+ rec.onend=()=>{recOn=false;if(!recNo)setTimeout(ouvir,400);};rec.start();recOn=true;}catch(e){}}
 window.__mouth=function(dt){if(!dOn)return;floor=Math.max(.02,Math.min(floor+dt*.01,lvl+.02));
- const x=lvl-floor;if(x>.06&&!juri&&!ofi)spk=.35;else spk=Math.max(0,spk-dt);
- if(dV.currentTime>=L1)dV.currentTime=L0;
- if(spk>0){if(dV.paused)dV.play().catch(()=>{});}
- else if(!dV.paused){const fi=Math.floor(dV.currentTime*25);if(QT[fi]==='1')dV.pause();}
- dD.style.background=spk>0?(Math.sin(T*10)>0?'#ff2b3c':'#7a1520'):'#5f7ba3';};
+ const x=lvl-floor,on=x>.04&&!juri&&!ofi;const tgt=on?Math.min(1,x*5.5):0;amp+=(tgt-amp)*(tgt>amp?.55:.22);
+ if(an&&buf){let sw=0,sv=0;for(let i=2;i<74;i++){sw+=i*buf[i];sv+=buf[i];}const c=sv?sw/sv:20;wide+=((Math.max(0,Math.min(1,(c-12)/22)))-wide)*.15;}
+ rosto(T);dD.style.background=amp>.15?(Math.sin(T*10)>0?'#ff2b3c':'#7a1520'):'#5f7ba3';};
 addEventListener('convocar',()=>{conv=T;mic();voz();const c=document.getElementById('wCall');if(c){c.textContent='⚖ Depoente convocada';c.style.opacity=.6;}});
 btn.addEventListener('click',async e=>{e.stopPropagation();mic();});
 btn.addEventListener('dummy',async e=>{e.stopPropagation();try{const s=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true}});
  const a=new (window.AudioContext||window.webkitAudioContext)();an=a.createAnalyser();an.fftSize=256;an.smoothingTimeConstant=.75;a.createMediaStreamSource(s).connect(an);buf=new Uint8Array(an.frequencyBinCount);
  btn.textContent='🎙 Microfone ativo';btn.style.opacity=.55;}catch(err){btn.textContent='⚠ Microfone bloqueado: permita no navegador';}});
-function f(now){requestAnimationFrame(f);if(!sec.classList.contains('on')){last=now;if(dOn)depoOff();return;}const dt=Math.min(.05,(now-last)/1000);last=now;T+=dt;
+function f(now){requestAnimationFrame(f);if(!sec.classList.contains('on')&&!dOn){last=now;return;}const dt=Math.min(.05,(now-last)/1000);last=now;T+=dt;
  let bins=[];if(an){an.getByteFrequencyData(buf);bins=[...buf.slice(2,74)].map(v=>v/255);}else bins=[...Array(72)].map((_,i)=>.06+.05*Math.sin(T*2+i*.4));
  const raw=bins.reduce((a,b)=>a+b,0)/bins.length;lvl+=(raw-lvl)*.25;
  const talk=an&&lvl>.16;if(talk)hold=.7;else hold=Math.max(0,hold-dt);const on=hold>0;
@@ -2948,7 +2986,7 @@ P.filter(p=>p.game).forEach(p=>{const sec=p.sec,cv=sec.querySelector('.gcv'),cx=
 /* teclado: A–D somam (Shift tira), T inicia/pausa, só no slide de votação ativo */
 document.addEventListener('keydown',e=>{const p=activeP;if(!p||e.ctrlKey||e.metaKey||e.altKey||e.key.length!==1)return;if(e.target&&e.target.tagName==='INPUT')return;
   if(!$('vcfg').classList.contains('hide')||!$('qrzoom').classList.contains('hide'))return;
-  const lk=e.key.toLowerCase(),i='abcd'.indexOf(lk);
+  const lk=e.key.toLowerCase(),i=-1;
   if(i>=0){e.preventDefault();e.stopPropagation();p.bump(i,e.shiftKey?-1:1);}else if(lk==='t'){e.preventDefault();e.stopPropagation();p.trun?tStop(p):tStart(p);}else if(lk==='m'){e.preventDefault();e.stopPropagation();sToggle();}},true);
 /* configuração (uma vez vale para todas as votações) */
 const dlg=$('vcfg');
