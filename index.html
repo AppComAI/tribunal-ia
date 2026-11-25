@@ -273,9 +273,10 @@ const S=[
 <div id="depo" style="position:absolute;left:0;top:0;width:1920px;height:1080px;z-index:9;display:none;overflow:hidden;background:#000">
 <img id="dpT" src="reu.jpg" alt="" style="position:absolute;left:0;top:-177px;width:1920px;height:1434px;transform-origin:666px 431px;transition:transform 2.8s cubic-bezier(.6,0,.3,1),opacity .9s;opacity:0">
 <div id="dpF" style="position:absolute;inset:0;opacity:0;transition:opacity 1s">
-<img src="depoente_hd.jpg" alt="" style="position:absolute;left:-5%;top:-5%;width:110%;height:110%;object-fit:cover;filter:blur(38px) brightness(.45)">
-<div id="dpB" style="position:absolute;left:557px;top:0;width:806px;height:1080px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%)">
-<canvas id="dpC" width="896" height="1200" role="img" aria-label="Depoente: rosto gerado por IA" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+<img src="depoente3_poster.jpg" alt="" style="position:absolute;left:-5%;top:-5%;width:110%;height:110%;object-fit:cover;filter:blur(38px) brightness(.45)">
+<div id="dpB" style="position:absolute;left:614px;top:0;width:691px;height:1080px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 10%,#000 90%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 10%,#000 90%,transparent 100%)">
+<video id="dpVA" src="depoente3.mp4" poster="depoente3_poster.jpg" muted playsinline preload="auto" aria-label="Depoente: vídeo gerado por IA" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .1s linear"></video>
+<video id="dpVB" src="depoente3.mp4" muted playsinline preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .1s linear"></video>
 <div style="position:absolute;inset:0;box-shadow:inset 0 0 90px 50px rgba(0,0,0,.85)"></div></div>
 <div style="position:absolute;left:0;right:0;bottom:46px;text-align:center"><span id="dpS" style="display:inline-flex;align-items:center;gap:12px;padding:10px 26px;border-radius:30px;background:rgba(0,0,0,.55);border:2px solid #ff5d6c;color:#ff8a95;font:800 22px Inter,Arial,sans-serif;letter-spacing:3px"><span id="dpD" style="width:14px;height:14px;border-radius:50%;background:#ff2b3c"></span>TESTEMUNHA EM DEPOIMENTO · IMAGEM GERADA POR IA</span><span id="dpQ" style="display:none;margin-left:14px;align-items:center;padding:10px 18px;border-radius:30px;background:rgba(0,0,0,.55);border:2px solid #ffc34d;color:#ffc34d;font:800 20px Inter,Arial,sans-serif;letter-spacing:2px">O JÚRI PERGUNTA</span></div></div></div>
 <style>@keyframes dpbr{0%,100%{transform:scale(1)}50%{transform:scale(1.015)}}</style>`,n:'<b>Montagem:</b> app do Claude ou do ChatGPT em modo de voz, no notebook ligado ao som da sala. <b>Convocação:</b> clique em “Convocar a depoente”: abre o projeto do ChatGPT (ligue o modo de voz). Ao voltar para a apresentação (Alt+Tab ou clique nela), a cena começa sozinha; a tecla V também a dispara: o slide fala “Oficial de justiça… apresente-se ao júri”, liga o microfone e mostra o rosto da depoente; a IA ouve e se apresenta. Clique em “Ativar microfone” uma vez: a esfera reage ao que o microfone do notebook capta, inclusive a voz da IA saindo da caixa.<br><b>Roteiro:</b> 1) Juiz: “Em uma frase, quem é o responsável quando você erra?” 2) Duas perguntas da turma, em voz alta. 3) A pergunta da acareação (próximo slide).<br><b>Depoente na tela:</b> durante a fala do oficial, a cena do tribunal aparece, aproxima-se do rosto e o vídeo do rosto anda enquanto há voz no microfone e para numa pausa natural (boca fechada) quando a voz cessa. Esc esconde (clique não esconde mais). Em qualquer slide: B mostra/esconde; B e logo A = mostra e o slide fala “Depoente, retorne”. Voz: “Depoente, retorne”, “Depoente, retire-se”, “Boa sorte”.<br><b>Boca só com a voz da IA:</b> com a IA no navegador deste notebook, clique “Ouvir só a voz da IA”, escolha a aba do ChatGPT (ou a tela inteira) e marque “Compartilhar áudio”: o slide passa a ouvir só a IA, não a sala. Com a IA no celular, use a tecla Q: liga/desliga “o júri pergunta” (boca parada).<br><b>Caixa Bluetooth:</b> com “Ouvir só a voz da IA”, a boca espera o atraso do Bluetooth (padrão 250 ms). Teclas [ e ] ajustam de 50 em 50 ms; o valor fica salvo neste navegador.<br><b>Plano B:</b> respostas gravadas no ensaio. Conta da equipe, sem dados pessoais.'},
@@ -362,41 +363,30 @@ async function mic(){if(an)return;try{const s=await navigator.mediaDevices.getUs
 const DP=document.getElementById('depo'),dT=document.getElementById('dpT'),dF=document.getElementById('dpF'),dD=document.getElementById('dpD');
 {const stg=document.getElementById('stage');if(stg&&DP.parentNode!==stg)stg.appendChild(DP);}
 let dOn=false,floor=.05,amp=0,wide=.5;
-/* ---- rosto desenhado: vão entre os lábios que abre com o volume e muda de forma com o timbre ---- */
-const FI=new Image();FI.src='depoente_hd.jpg';const fc=document.getElementById('dpC'),fg=fc.getContext('2d');let LB=null,UB=null;
-function bloco(x,y,w,h,fx,top,bot){const c=document.createElement('canvas');c.width=w;c.height=h;const k=c.getContext('2d');k.drawImage(FI,x,y,w,h,0,0,w,h);k.globalCompositeOperation='destination-in';
- let q=k.createLinearGradient(0,0,w,0);q.addColorStop(0,'rgba(0,0,0,0)');q.addColorStop(fx/w,'#000');q.addColorStop(1-fx/w,'#000');q.addColorStop(1,'rgba(0,0,0,0)');k.fillStyle=q;k.fillRect(0,0,w,h);
- q=k.createLinearGradient(0,0,0,h);q.addColorStop(0,top?'rgba(0,0,0,0)':'#000');q.addColorStop(top?top/h:0,'#000');q.addColorStop(bot?1-bot/h:1,'#000');q.addColorStop(1,bot?'rgba(0,0,0,0)':'#000');k.fillStyle=q;k.fillRect(0,0,w,h);return c;}
-function blocoLab(){const w=300,h=190,c=document.createElement('canvas');c.width=w;c.height=h;const k=c.getContext('2d');k.drawImage(FI,340,778,w,h,0,0,w,h);k.globalCompositeOperation='destination-in';
- k.save();k.translate(148,0);k.scale(1,1.25);const q=k.createRadialGradient(0,0,0,0,0,118);q.addColorStop(0,'#000');q.addColorStop(.72,'#000');q.addColorStop(1,'rgba(0,0,0,0)');k.fillStyle=q;k.fillRect(-150,0,300,h);k.restore();return c;}
-FI.onload=()=>{LB=blocoLab();UB=bloco(392,712,196,66,40,24,0);};
-window.__rostoTeste=(a,w)=>{amp=a;wide=w;rosto(1);};
-const LY=777,MX=488;
-function rosto(t){if(!FI.complete||!LB)return;const d=amp*17,lift=amp*2.2;
- fg.setTransform(1,0,0,1,0,0);fg.clearRect(0,0,896,1200);
- const r=Math.sin(t*.6)*.008+Math.sin(t*1.7)*.003,sc=1+.006*Math.sin(t*1.3),ty=Math.sin(t*.9)*3+amp*4;
- fg.translate(448,600+ty);fg.rotate(r);fg.scale(sc,sc);fg.translate(-448,-600);fg.drawImage(FI,0,0,896,1200);
- if(d>.6){const sp=98-16*(1-wide),L0=MX-sp,R0=MX+sp,prof=x=>{const u=(x-MX)/sp;return Math.abs(u)>=1?0:Math.pow(Math.cos(u*Math.PI/2),1.4);};
-  fg.save();fg.filter='blur(1px)';fg.beginPath();fg.moveTo(L0,LY);
-  for(let x=L0;x<=R0;x+=4)fg.lineTo(x,LY-d*.12*prof(x));for(let x=R0;x>=L0;x-=4)fg.lineTo(x,LY+d*prof(x));fg.closePath();fg.clip();
-  let q=fg.createRadialGradient(MX,LY+d*.4,0,MX,LY+d*.4,sp);q.addColorStop(0,'#0d0304');q.addColorStop(.5,'#1d0708');q.addColorStop(.85,'#3a1214');q.addColorStop(1,'#5e2a2a');fg.fillStyle=q;fg.fillRect(L0-2,LY-d,sp*2+4,d*2+4);
-  if(d>6){const th=Math.min(d*.22,5);q=fg.createLinearGradient(0,LY-2,0,LY-2+th);q.addColorStop(0,'rgba(232,224,216,.6)');q.addColorStop(1,'rgba(150,135,128,0)');fg.fillStyle=q;fg.beginPath();fg.ellipse(MX,LY-2,sp*.5,th,0,0,Math.PI);fg.fill();}
-  if(d>10){q=fg.createRadialGradient(MX,LY+d*.75,0,MX,LY+d*.75,sp*.55);q.addColorStop(0,'rgba(120,45,50,.5)');q.addColorStop(1,'rgba(120,45,50,0)');fg.fillStyle=q;fg.fillRect(L0,LY,sp*2,d);}
-  fg.filter='none';fg.restore();
-  /* lábio de cima sobe um pouco no centro; lábio de baixo e queixo descem, menos nos cantos */
-  for(let x=0;x<196;x+=6){const ax=392+x,w=Math.min(7,196-x);fg.drawImage(UB,x,0,w,66,ax,712-lift*prof(ax+3),w,66);}
-  for(let x=0;x<300;x+=6){const ax=340+x,w=Math.min(7,300-x);fg.drawImage(LB,x,0,w,190,ax,778+d*prof(ax+3),w,190);}}}
-function depo(D){if(dOn)return;dOn=true;ouvir();const zt=(D&&isFinite(D))?Math.max(1.2,Math.min(2.8,D-2.3)):2.8;dT.style.transition=`transform ${zt}s cubic-bezier(.6,0,.3,1),opacity .6s`;DP.style.display='block';dT.style.transform='scale(1)';dT.style.opacity='0';dF.style.transition='opacity 1s';dF.style.opacity='0';
+/* ---- depoente em vídeo: anda nos trechos de fala enquanto há voz; para numa pausa natural ---- */
+const SEG=[[1.08,1.84],[2.16,6.2],[6.56,8.36],[9.04,10.92],[11.24,13.72],[14.24,16.84],[17.24,19.08],[19.52,21.32]];
+let VA=document.getElementById('dpVA'),VB=document.getElementById('dpVB'),cut=false,hFala=0;
+const CFG=(()=>{let c={};try{c=JSON.parse(localStorage.getItem('tia_depo'))||{}}catch(e){}return Object.assign({sen:1,esp:.5},c);})();
+const salvaCfg=()=>{try{localStorage.setItem('tia_depo',JSON.stringify({sen:CFG.sen,esp:CFG.esp}))}catch(e){}};
+VA.addEventListener('loadedmetadata',()=>{VA.currentTime=.95;},{once:true});VB.load();
+const segAt=t=>SEG.findIndex(z=>t>=z[0]-.02&&t<z[1]);const segProx=t=>{const i=SEG.findIndex(z=>z[0]>t+.05);return i<0?0:i;};
+function corte(to){if(cut)return;cut=true;const nb=VB,old=VA;
+ const go=()=>{if(Math.abs(nb.currentTime-to)>.15){nb.currentTime=to;nb.addEventListener('seeked',go,{once:true});return;}
+  nb.playbackRate=old.playbackRate;nb.play().catch(()=>{});nb.style.opacity=1;old.style.opacity=0;setTimeout(()=>{old.pause();VA=nb;VB=old;cut=false;},120);};
+ const sk=()=>{nb.currentTime=to;nb.addEventListener('seeked',go,{once:true});};if(nb.readyState<1)nb.addEventListener('loadedmetadata',sk,{once:true});else sk();
+ setTimeout(()=>{if(cut&&VA===old)cut=false;},1500);}
+window.__depoCfg=CFG;
+function depo(D){if(dOn)return;dOn=true;ouvir();try{VA.pause();VA.currentTime=.95;}catch(e){}const zt=(D&&isFinite(D))?Math.max(1.2,Math.min(2.8,D-2.3)):2.8;dT.style.transition=`transform ${zt}s cubic-bezier(.6,0,.3,1),opacity .6s`;DP.style.display='block';dT.style.transform='scale(1)';dT.style.opacity='0';dF.style.transition='opacity 1s';dF.style.opacity='0';
  requestAnimationFrame(()=>requestAnimationFrame(()=>{dT.style.opacity='1';const z0=(D&&isFinite(D))?Math.max(.3,D-1.5-zt-.3):.3;setTimeout(()=>{dT.style.transform='scale(3.6)';},z0*1000);setTimeout(()=>{dF.style.opacity='1';},(z0+zt)*1000-300);}));}
 function depoJa(){if(dOn)return;dOn=true;ouvir();DP.style.display='block';dT.style.transition='none';dT.style.opacity='0';dF.style.transition='opacity .45s';dF.style.opacity='0';requestAnimationFrame(()=>requestAnimationFrame(()=>{dF.style.opacity='1';}));}
-function depoOff(){if(!dOn)return;dOn=false;dF.style.transition='opacity .4s';dF.style.opacity='0';setTimeout(()=>{if(!dOn)DP.style.display='none';},420);}
+function depoOff(){if(!dOn)return;dOn=false;try{VA.pause()}catch(e){}dF.style.transition='opacity .4s';dF.style.opacity='0';setTimeout(()=>{if(!dOn)DP.style.display='none';},420);}
 function falar(txt){try{const sy=speechSynthesis;sy.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang='pt-BR';u.rate=.95;const v=sy.getVoices().filter(x=>/pt[-_]BR/i.test(x.lang));if(v[0])u.voice=v.find(x=>/Google|Microsoft/.test(x.name))||v[0];ofi=true;const fim=()=>setTimeout(()=>{ofi=false;},250);u.onend=fim;u.onerror=fim;setTimeout(fim,5000);sy.speak(u);}catch(e){}}
 /* ---- teclas: B mostra/esconde · B depois A chama em voz alta · Esc esconde ---- */
 let bT=null;
 addEventListener('keydown',e=>{const tg=e.target&&e.target.tagName;if(tg==='INPUT'||tg==='TEXTAREA'||e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();
  if(k==='b'){e.preventDefault();e.stopImmediatePropagation();if(bT)return;bT=setTimeout(()=>{bT=null;dOn?depoOff():depoJa();},450);}
  else if(k==='a'&&bT){e.preventDefault();e.stopImmediatePropagation();clearTimeout(bT);bT=null;depoJa();falar('Depoente, retorne.');}
- else if(e.key==='Escape'&&dOn){e.preventDefault();e.stopImmediatePropagation();depoOff();}},true);
+ else if(e.key==='Escape'&&dOn&&!((document.getElementById('senP')||{}).style||{}).display?.startsWith('block')){e.preventDefault();e.stopImmediatePropagation();depoOff();}},true);
 /* ---- comandos de voz: "Depoente, retorne" · "Depoente, retire-se" · "Boa sorte" ---- */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let rec=null,recOn=false,recNo=false,lastCmd=0;
 const norm=x=>x.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z ]/g,' ').replace(/\s+/g,' ');
@@ -407,10 +397,16 @@ function ouvir(){if(!SR||recOn||recNo)return;try{rec=new SR();rec.lang='pt-BR';r
  rec.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++)cmd(norm(e.results[i][0].transcript));};
  rec.onerror=ev=>{if(ev.error==='not-allowed'||ev.error==='service-not-allowed')recNo=true;};
  rec.onend=()=>{recOn=false;if(!recNo)setTimeout(ouvir,400);};rec.start();recOn=true;}catch(e){}}
-window.__mouth=function(dt){if(!dOn)return;floor=Math.max(.02,Math.min(floor+dt*.01,lvl+.02));
- const x=lvl-floor,on=x>.04&&!juri&&!ofi;const tgt=on?Math.min(1,x*5.5):0;amp+=(tgt-amp)*(tgt>amp?.55:.22);
- if(an&&buf){let sw=0,sv=0;for(let i=2;i<74;i++){sw+=i*buf[i];sv+=buf[i];}const c=sv?sw/sv:20;wide+=((Math.max(0,Math.min(1,(c-12)/22)))-wide)*.15;}
- rosto(T);dD.style.background=amp>.15?(Math.sin(T*10)>0?'#ff2b3c':'#7a1520'):'#5f7ba3';};
+window.__mouth=function(dt){if(!dOn)return;floor=Math.max(.012,Math.min(floor+dt*.006,lvl+.01));
+ const x=(lvl-floor)*CFG.sen*6;amp+=(Math.max(0,Math.min(1,x))-amp)*.4;
+ if(x>.18&&!juri&&!ofi)hFala=CFG.esp;else hFala=Math.max(0,hFala-dt);const on=hFala>0;window.__depoNivel=[Math.min(1,amp),on];
+ dD.style.background=on?(Math.sin(T*10)>0?'#ff2b3c':'#7a1520'):'#5f7ba3';
+ if(cut)return;const t=VA.currentTime,i=segAt(t);
+ if(on){VA.playbackRate=.92+.2*amp;
+  if(i<0){corte(SEG[segProx(t)][0]);return;}
+  if(t>=SEG[i][1]-.06){corte(SEG[(i+1)%SEG.length][0]);return;}
+  if(VA.paused)VA.play().catch(()=>{});}
+ else if(!VA.paused){VA.playbackRate=1;if(i<0||t>=SEG[i][1]-.04)VA.pause();}};
 addEventListener('convocar',()=>{conv=T;mic();voz();const c=document.getElementById('wCall');if(c){c.textContent='⚖ Depoente convocada';c.style.opacity=.6;}});
 btn.addEventListener('click',async e=>{e.stopPropagation();mic();});
 btn.addEventListener('dummy',async e=>{e.stopPropagation();try{const s=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true}});
@@ -490,6 +486,29 @@ function f(now){requestAnimationFrame(f);if(!img.complete||!img.naturalWidth)ret
  for(const d of dust){d.y-=d.v*dt;d.x+=Math.sin(T*.7+d.p)*.15;if(d.y<0){d.y=H;d.x=430+R()*580;}glow(d.x,d.y,d.s*3,'255,236,190',.35+.3*Math.sin(T*2+d.p));}
  g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='source-over';}
 requestAnimationFrame(f);})();
+
+/* ---- painel de ajuste: digite s-e-n ---- */
+(function(){const P=document.createElement('div');P.id='senP';P.style.cssText='position:absolute;right:40px;top:110px;width:420px;z-index:12;display:none;padding:22px 24px;border-radius:18px;background:rgba(6,18,42,.96);border:2px solid #38d6f5;box-shadow:0 20px 50px #000a;font:600 18px Inter,Arial,sans-serif;color:#eaf2ff';
+ P.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><b style="font-size:20px;color:#7be8ff">Ajuste da depoente</b><span style="color:#8aa0c2;font-size:14px">sen ou Esc fecha</span></div>'+
+ '<label style="display:flex;justify-content:space-between">Sensibilidade <span id="senVS"></span></label><input id="senS" type="range" min="0.4" max="3" step="0.05" style="width:100%">'+
+ '<label style="display:flex;justify-content:space-between;margin-top:10px">Espera antes de parar (s) <span id="senVE"></span></label><input id="senE" type="range" min="0.1" max="1.2" step="0.05" style="width:100%">'+
+ '<div style="margin-top:16px;height:12px;border-radius:6px;background:#1b2a40;overflow:hidden"><i id="senM" style="display:block;height:100%;width:0;background:linear-gradient(90deg,#38d6f5,#a78bfa)"></i></div>'+
+ '<div id="senT" style="margin-top:10px;font-size:15px;color:#9fb3d1">Sem som</div>'+
+ '<p style="margin:10px 0 0;font-size:13px;color:#8aa0c2;font-weight:500">Sensibilidade: quanto som faz ela falar. Espera: quanto silêncio até ela se calar. Os valores ficam salvos neste navegador.</p>';
+ document.getElementById('stage').appendChild(P);const C=window.__depoCfg;
+ const S=P.querySelector('#senS'),E=P.querySelector('#senE'),vs=P.querySelector('#senVS'),ve=P.querySelector('#senVE'),M=P.querySelector('#senM'),Tt=P.querySelector('#senT');
+ const pinta=()=>{S.value=C.sen;E.value=C.esp;vs.textContent=(+C.sen).toFixed(2);ve.textContent=(+C.esp).toFixed(2);};pinta();
+ const salva=()=>{try{localStorage.setItem('tia_depo',JSON.stringify({sen:C.sen,esp:C.esp}))}catch(e){}};
+ S.oninput=()=>{C.sen=+S.value;pinta();salva();};E.oninput=()=>{C.esp=+E.value;pinta();salva();};
+ ['keydown','click','mousedown'].forEach(ev=>P.addEventListener(ev,e=>e.stopPropagation()));
+ (function f(){requestAnimationFrame(f);if(P.style.display==='none')return;const n=window.__depoNivel||[0,false];M.style.width=(n[0]*100)+'%';Tt.textContent=n[1]?'● Falando':'Calada';Tt.style.color=n[1]?'#ff8a95':'#9fb3d1';})();
+ let seq='',st=0;
+ addEventListener('keydown',e=>{const tg=e.target&&e.target.tagName;if(tg==='INPUT'&&e.target.type!=='range'||tg==='TEXTAREA'||e.ctrlKey||e.metaKey||e.altKey)return;
+  if(e.key==='Escape'&&P.style.display!=='none'){P.style.display='none';e.preventDefault();e.stopImmediatePropagation();return;}
+  const k=e.key.toLowerCase();const now=Date.now();if(now-st>900)seq='';st=now;
+  if(k==='s'){seq='s';return;}if(k==='e'&&seq==='s'){seq='se';return;}
+  if(k==='n'&&seq==='se'){seq='';e.preventDefault();e.stopImmediatePropagation();P.style.display=P.style.display==='none'?'block':'none';return;}
+  seq='';},true);})();
 
 /* ===== sl 16: Real ou IA? ===== */
 (function(){const O=document.getElementById('rxO'),V=document.getElementById('rxV');if(!O)return;const sec=O.closest('section');
