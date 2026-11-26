@@ -60,7 +60,7 @@ const safeDetail = value => {
   return clean.replace(/[\r\n\t]+/g,' ').slice(0,500);
 };
 // Apenas mídias autorizadas do bônus, em mesma origem, com suporte a Range.
-const bonusMedia={'musica_ia.mp4':'video/mp4','musica_ia_poster.jpg':'image/jpeg','bm.jpg':'image/jpeg'};
+const bonusMedia={'musica_ia.mp4':'video/mp4','musica_ia_poster.jpg':'image/jpeg','bm.jpg':'image/jpeg','lm.jpg':'image/jpeg'};
 async function serveBonusMedia(req,res,filename){
   const mime=bonusMedia[filename];if(!mime)return json(res,404,{error:'Mídia não encontrada'});
   const url=new URL('./media/'+filename,import.meta.url);
@@ -86,7 +86,7 @@ const server = http.createServer(async (req,res)=>{
   if(['GET','HEAD'].includes(req.method)&&pathname.startsWith('/media/'))return serveBonusMedia(req,res,pathname.slice(7));
   if(req.method==='GET' && ['/','/voice-test'].includes(pathname)){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});return res.end(page);}
   if(req.method==='GET' && pathname==='/apresentacao'){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});return res.end(presentation);}
-  if(req.method==='GET' && pathname==='/health'){return json(res,ready?200:503,{ok:ready,model,backend,version:'realtime-2.1-audiencia-7',extraMaterialLoaded:material.some(x=>x.name.startsWith('Material Denilson')),collectiveContextActive:!!collectiveContext(),limits,knowledgeFiles:material.length,knowledgeWarnings});}
+  if(req.method==='GET' && pathname==='/health'){return json(res,ready?200:503,{ok:ready,model,backend,version:'realtime-2.1-audiencia-8',extraMaterialLoaded:material.some(x=>x.name.startsWith('Material Denilson')),collectiveContextActive:!!collectiveContext(),limits,knowledgeFiles:material.length,knowledgeWarnings});}
   if(req.method==='GET'&&pathname==='/api/auth'){return json(res,200,{authenticated:ready&&authCookie(req),limits});}
   if(req.method!=='POST'||!['/api/session','/api/consult','/api/login','/api/logout'].includes(pathname)) return json(res,404,{error:'Rota não encontrada'});
   if(!ready) return json(res,503,{error:'Configure as duas variáveis de ambiente no servidor.'});
