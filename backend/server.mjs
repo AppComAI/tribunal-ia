@@ -28,7 +28,15 @@ for(const entry of (await readdir(knowledgeDir,{withFileTypes:true}).catch(e=>{i
  if(usedChars+content.length>MAX_KNOWLEDGE){knowledgeWarnings.push(entry.name+': excede limite total de conhecimento');continue;}
  usedChars+=content.length;supplemental.push({name:entry.name,content});
 }
+// O HTML usa uma lista de slides em JavaScript. Extraia seu conteúdo estático
+// sem executar código ou carregar recursos externos. O roteiro continua sendo a fonte principal.
+const slideSource=presentation.toString('utf8');
+const slideStart=slideSource.indexOf('const S=[');
+const slideEnd=slideStart>=0?slideSource.indexOf('\n];',slideStart):-1;
+const slideText=slideEnd>slideStart?slideSource.slice(slideStart,slideEnd).replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/[ \t]+/g,' ').trim():'';
 const material=[{name:'dossie.md',content:dossie},...supplemental];
+if(slideText&&usedChars+slideText.length<=MAX_KNOWLEDGE){material.push({name:'apresentacao.html — extrato estático dos slides e notas do apresentador (elementos dinâmicos podem aparecer como expressões)',content:slideText});}
+else knowledgeWarnings.push(slideText?'Slides: excede limite total de conhecimento':'Slides: estrutura do HTML não reconhecida');
 console.log('Material de referência:',material.map(x=>x.name).join(', '), 'Avisos:',knowledgeWarnings.join('; ')||'nenhum');
 const hash = s => createHash('sha256').update(s).digest();
 let attempts = [], starts = [], queries = [];
