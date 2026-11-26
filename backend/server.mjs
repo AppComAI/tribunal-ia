@@ -86,7 +86,7 @@ const server = http.createServer(async (req,res)=>{
   if(['GET','HEAD'].includes(req.method)&&pathname.startsWith('/media/'))return serveBonusMedia(req,res,pathname.slice(7));
   if(req.method==='GET' && ['/','/voice-test'].includes(pathname)){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});return res.end(page);}
   if(req.method==='GET' && pathname==='/apresentacao'){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});return res.end(presentation);}
-  if(req.method==='GET' && pathname==='/health'){return json(res,ready?200:503,{ok:ready,model,backend,version:'realtime-2.1-audiencia-8',extraMaterialLoaded:material.some(x=>x.name.startsWith('Material Denilson')),collectiveContextActive:!!collectiveContext(),limits,knowledgeFiles:material.length,knowledgeWarnings});}
+  if(req.method==='GET' && pathname==='/health'){return json(res,ready?200:503,{ok:ready,model,backend,version:'realtime-2.1-audiencia-9',extraMaterialLoaded:material.some(x=>x.name.startsWith('Material Denilson')),collectiveContextActive:!!collectiveContext(),limits,knowledgeFiles:material.length,knowledgeWarnings});}
   if(req.method==='GET'&&pathname==='/api/auth'){return json(res,200,{authenticated:ready&&authCookie(req),limits});}
   if(req.method!=='POST'||!['/api/session','/api/consult','/api/login','/api/logout'].includes(pathname)) return json(res,404,{error:'Rota não encontrada'});
   if(!ready) return json(res,503,{error:'Configure as duas variáveis de ambiente no servidor.'});
