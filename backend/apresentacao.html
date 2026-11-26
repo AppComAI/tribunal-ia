@@ -3148,6 +3148,7 @@ if(d.type==='tribunal-mic-level'){const m=$('tribMicLevel');m.value=Math.max(0,M
 if(d.type==='tribunal-mode'){voiceMode=d.mode;micMuted=!!d.muted;const m=bar.querySelector('[data-command="mute"]');m.style.color=micMuted?'#f4a261':'#57d6af';m.setAttribute('aria-pressed',String(micMuted));m.title=micMuted?'Microfone silenciado · Shift+M':'Microfone ativo · Shift+M';updateDock();syncMusic();}
 if(d.type==='tribunal-connected'){connected=true;micMuted=false;call.textContent='⚖ Controle da depoente';p.style.display='none';setState('À espera do juiz','#57d6af');updateDock();syncMusic();}
 if(d.type==='tribunal-disconnected'){connected=false;voiceMode='idle';micMuted=true;window.__tribVoiceLevel=0;window.__tribAvatar?.hide();call.textContent='⚖ Convocar a depoente';$('tribMicLevel').value=0;setState('IA desligada');updateDock();syncMusic();}
+if(d.type==='tribunal-play-song'){musicWanted=false;syncMusic();p.style.display='none';window.__tribAvatar?.hide();go(S.length-1);document.getElementById('bnGo')?.click();}
 if(d.type==='tribunal-avatar'){if(d.visible)window.__tribAvatar?.show();else window.__tribAvatar?.hide();}
 });
 setInterval(()=>{if(performance.now()-levelTime>500)window.__tribVoiceLevel=0;syncMusic();},250);updateDock();
