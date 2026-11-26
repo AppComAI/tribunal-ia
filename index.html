@@ -56,7 +56,8 @@ blockquote{margin:30px 0 0;font-size:40px;font-weight:600;line-height:1.4;color:
 section.poll h2.vq{max-width:1330px;margin:0;font-size:52px;min-height:150px;display:flex;align-items:center}
 section.poll .vq-row h2.vq{min-height:0}
 section.poll .vopt{background:rgba(11,26,51,.85);border-color:rgba(56,214,245,.3)}
-section.poll .vled{top:110px;right:110px}
+section.poll .vled{top:96px!important;right:400px!important}
+section.poll h2.vq{max-width:1040px!important;width:auto!important}section.poll .vq-row{max-width:1100px!important}
 section.poll .vrev{background:rgba(62,230,168,.10);border-left:12px solid var(--grn);color:#eaf2ff}
 section.poll .vrev b{color:var(--grn)}
 section.poll .vtools{margin-top:-10px}
@@ -199,7 +200,7 @@ section.poll.cloud:has(.vrev.visible) .vw { cursor:default; }
 #rxX{position:absolute;right:40px;top:30px;color:#9fb3d1;font:700 20px Inter,Arial,sans-serif;background:rgba(0,0,0,.5);padding:8px 16px;border-radius:20px}
 
 /* setas 3D no canto superior direito */
-.nav3d{position:absolute;top:10px;width:82px;height:82px;border:0;background:none;padding:0;cursor:pointer;z-index:7;transition:transform .15s,filter .25s}
+.nav3d{position:absolute;top:6px;width:164px;height:164px;border:0;background:none;padding:0;cursor:pointer;z-index:7;transition:transform .15s,filter .25s,opacity .6s}
 .nav3d img{position:absolute;inset:0;width:100%;height:100%;transition:opacity .25s}
 .nav3d .gl{opacity:0}
 .nav3d:hover .gl{opacity:.55}
@@ -213,7 +214,7 @@ section.poll.cloud:has(.vrev.visible) .vw { cursor:default; }
  <div id="slides"></div>
  <div id="num"></div>
  <div id="help">← → navegar · N notas · G índice · T cronômetro · B depoente · F tela cheia</div>
- <button class="nav3d" style="right:132px" onclick="prev()" title="Voltar (←)"><img src="nav_prev.png" alt="Voltar"><img class="gl" src="nav_prev_glow.png" alt=""></button><button class="nav3d" style="right:40px" onclick="next()" title="Avançar (→)"><img src="nav_next.png" alt="Avançar"><img class="gl" src="nav_next_glow.png" alt=""></button>
+ <button class="nav3d" style="right:202px" onclick="prev()" title="Voltar (←)"><img src="nav_prev.png" alt="Voltar"><img class="gl" src="nav_prev_glow.png" alt=""></button><button class="nav3d" style="right:30px" onclick="next()" title="Avançar (→)"><img src="nav_next.png" alt="Avançar"><img class="gl" src="nav_next_glow.png" alt=""></button>
  <div id="notes"></div>
  <div id="index"></div>
 </div>
@@ -274,7 +275,7 @@ const S=[
 <img src="reu.jpg" alt="" id="bnBg" style="position:absolute;left:-3%;top:-3%;width:106%;height:106%;object-fit:cover;filter:blur(14px) brightness(.28) saturate(.7);transform:scale(1.08);transition:transform 9s ease-out,filter 2s">
 <canvas id="bnCv" width="1920" height="1080" style="position:absolute;inset:0;width:1920px;height:1080px"></canvas>
 <div class="bnSp" id="bnS1" style="left:330px;--r0:-38deg;--r1:-12deg"></div><div class="bnSp" id="bnS2" style="left:1590px;--r0:38deg;--r1:12deg"></div>
-<div id="bnFr" style="position:absolute;left:555px;top:40px;width:810px;height:1000px;border-radius:30px;overflow:hidden;opacity:0;transform:scale(.86);transition:opacity 1.6s,transform 2.2s cubic-bezier(.2,.8,.2,1),box-shadow .12s;clip-path:circle(0% at 50% 40%)">
+<div id="bnFr" style="position:absolute;left:555px;top:40px;width:810px;height:1000px;border-radius:30px;overflow:hidden;opacity:0;transform:scale(.86);transition:opacity 1.6s,transform 2.2s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 90px rgba(255,195,77,.45);clip-path:circle(0% at 50% 40%)">
 <video id="bnV" src="musica_ia.mp4" poster="musica_ia_poster.jpg" playsinline preload="auto" style="width:100%;height:100%;object-fit:cover"></video>
 <div style="position:absolute;inset:0;box-shadow:inset 0 0 120px 40px rgba(0,0,0,.8);pointer-events:none"></div></div>
 <div id="bnEq" style="position:absolute;left:555px;width:810px;bottom:18px;height:70px;display:flex;align-items:flex-end;gap:6px;opacity:0;transition:opacity 1s"></div>
@@ -286,16 +287,16 @@ const S=[
 <div id="bnRec" style="position:absolute;right:60px;top:50px;display:flex;align-items:center;gap:12px;opacity:0;transition:opacity 1s;font:800 20px Inter,Arial,sans-serif;letter-spacing:4px;color:#ff8a95"><span id="bnDot" style="width:14px;height:14px;border-radius:50%;background:#ff2b3c"></span>AO VIVO NO PLENÁRIO</div>
 <div id="bnLy" style="position:absolute;left:1400px;top:150px;width:480px;height:780px;overflow:hidden;opacity:0;transition:opacity 1.2s;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 22%,#000 70%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 22%,#000 70%,transparent 100%)"><div id="bnLyIn" style="position:absolute;left:0;right:0;top:0;transition:transform .9s cubic-bezier(.2,.8,.2,1)"></div></div>
 <div id="bnOff" style="position:absolute;right:60px;bottom:110px;font:700 18px Inter,Arial,sans-serif;color:#ffc34d;opacity:0;transition:opacity .4s;letter-spacing:2px"></div>
-<style>.bnL{font:800 33px/1.22 Inter,Arial,sans-serif;padding-right:60px;color:rgba(234,242,255,.28);margin:0 0 26px;transform-origin:0 50%;transition:color .5s,transform .5s,filter .5s,text-shadow .5s;filter:blur(1.2px)}
-.bnL.cur{color:#fff;transform:scale(1.08);filter:none;text-shadow:0 0 24px rgba(255,195,77,.55)}
+<style>.bnL{font:800 33px/1.22 Inter,Arial,sans-serif;padding-right:60px;color:rgba(234,242,255,.28);margin:0 0 26px;transform-origin:0 50%;transition:color .5s,transform .5s,text-shadow .5s;opacity:.85}
+.bnL.cur{color:#fff;transform:scale(1.08);opacity:1;text-shadow:0 0 24px rgba(255,195,77,.55)}
 .bnL.cur span{background:linear-gradient(90deg,#ffc34d,#ff7a59,#ffc34d);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:bnSh 2.4s linear infinite}
-.bnL.pas{color:rgba(234,242,255,.45);filter:blur(.6px)}
+.bnL.pas{color:rgba(234,242,255,.45)}
 @keyframes bnSh{0%{background-position:0 0}100%{background-position:200% 0}}</style>
 <div id="bnFim" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(2,6,16,.82);opacity:0;pointer-events:none;transition:opacity 1.4s">
 <div style="font-size:30px;letter-spacing:10px;color:#9fb3d1;font-weight:700">A SESSÃO ESTÁ ENCERRADA</div>
 <div style="font-size:120px;font-weight:900;color:#f3f6ff;margin-top:20px">O júri é <span style="color:#ffc34d">você.</span></div>
 <div style="font-size:20px;color:#5f7ba3;margin-top:40px;letter-spacing:2px">Esc para voltar</div></div>
-<style>.bnSp{position:absolute;top:-80px;width:520px;height:1300px;margin-left:-260px;transform-origin:50% 0;transform:rotate(var(--r0));opacity:0;background:linear-gradient(180deg,rgba(255,236,190,.55),rgba(255,214,140,.14) 55%,transparent 85%);clip-path:polygon(44% 0,56% 0,100% 100%,0 100%);filter:blur(6px);mix-blend-mode:screen;transition:opacity 1s}
+<style>.bnSp{position:absolute;top:-80px;width:520px;height:1300px;margin-left:-260px;transform-origin:50% 0;transform:rotate(var(--r0));opacity:0;background:linear-gradient(180deg,rgba(255,236,190,.55),rgba(255,214,140,.14) 55%,transparent 85%);clip-path:polygon(44% 0,56% 0,100% 100%,0 100%);transition:opacity 1s}
 #bnO.shk{animation:bnShk .22s}@keyframes bnShk{0%{transform:translate(0,0)}25%{transform:translate(-8px,5px)}50%{transform:translate(7px,-4px)}75%{transform:translate(-4px,3px)}100%{transform:translate(0,0)}}
 .bnB{flex:1;background:linear-gradient(0deg,#ff7a59,#ffc34d);border-radius:4px 4px 0 0;height:4px;opacity:.85}</style></div>
 <div id="depo" style="position:absolute;left:0;top:0;width:1920px;height:1080px;z-index:9;display:none;overflow:hidden;background:#000">
@@ -365,7 +366,7 @@ function martelo(){try{AC=AC||new (window.AudioContext||window.webkitAudioContex
  const n=AC.createBuffer(1,AC.sampleRate*.06,AC.sampleRate),d=n.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);
  const s=AC.createBufferSource(),gn=AC.createGain(),f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=2500;gn.gain.value=.7;s.buffer=n;s.connect(f).connect(gn).connect(AC.destination);s.start(t);}catch(e){}
  O.classList.remove('shk');void O.offsetWidth;O.classList.add('shk');}
-function ligaAnalise(){if(an||!/^https?:/.test(location.protocol))return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const src=AC.createMediaElementSource(V);an=AC.createAnalyser();an.fftSize=256;an.smoothingTimeConstant=.7;src.connect(an);an.connect(AC.destination);buf=new Uint8Array(an.frequencyBinCount);}catch(e){an=null;}}
+function ligaAnalise(){return;if(an||!/^https?:/.test(location.protocol))return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const src=AC.createMediaElementSource(V);an=AC.createAnalyser();an.fftSize=256;an.smoothingTimeConstant=.7;src.connect(an);an.connect(AC.destination);buf=new Uint8Array(an.frequencyBinCount);}catch(e){an=null;}}
 function abrir(){if(on)return;on=true;tms.forEach(clearTimeout);tms=[];O.style.display='block';Fim.style.opacity='0';Fim.style.pointerEvents='none';
  [T1,T2,T3,Tag,Rec,Eq,LyB].forEach(e=>e.style.opacity='0');lyIdx=-2;[S1,S2].forEach(s=>{s.style.transition='none';s.style.opacity='0';s.style.transform='rotate(var(--r0))';});
  Fr.style.transition='none';Fr.style.opacity='0';Fr.style.transform='scale(.86)';Fr.style.clipPath='circle(0% at 50% 40%)';Bg.style.transition='none';Bg.style.transform='scale(1.08)';Bg.style.filter='blur(14px) brightness(.28) saturate(.7)';
@@ -375,8 +376,8 @@ function abrir(){if(on)return;on=true;tms.forEach(clearTimeout);tms=[];O.style.d
   later(()=>{T3.style.opacity='1';[S1,S2].forEach(s=>{s.style.transition='opacity 1s';s.style.opacity='.9';s.style.animation='none';});
    [S1,S2].forEach((s,i)=>{s.animate([{transform:'rotate(var(--r0))'},{transform:`rotate(${i?-25:25}deg)`},{transform:`rotate(${i?20:-20}deg)`},{transform:'rotate(var(--r1))'}],{duration:3200,easing:'ease-in-out',fill:'forwards'});});},2700);
   later(()=>{[T1,T2,T3].forEach(e=>e.style.opacity='0');},5200);
-  later(()=>{Bg.style.transition='transform 60s linear,filter 2s';Bg.style.transform='scale(1.25)';Bg.style.filter='blur(10px) brightness(.38) saturate(.8)';
-   Fr.style.transition='opacity 1.6s,transform 2.4s cubic-bezier(.2,.8,.2,1),clip-path 2.2s cubic-bezier(.2,.8,.2,1),box-shadow .12s';Fr.style.opacity='1';Fr.style.transform='scale(1)';Fr.style.clipPath='circle(80% at 50% 40%)';
+  later(()=>{Bg.style.transition='filter 2s';Bg.style.filter='blur(10px) brightness(.38) saturate(.8)';
+   Fr.style.transition='opacity 1.6s,transform 2.4s cubic-bezier(.2,.8,.2,1),clip-path 2.2s cubic-bezier(.2,.8,.2,1)';Fr.style.opacity='1';Fr.style.transform='scale(1)';Fr.style.clipPath='circle(80% at 50% 40%)';
    V.play().catch(()=>{});[Tag,Rec,Eq].forEach(e=>e.style.opacity='1');LyB.style.opacity=lyOn?'1':'0';lyIdx=-2;},5900);
  }));cancelAnimationFrame(raf);raf=requestAnimationFrame(loop);}
 function fechar(){if(!on)return;on=false;tms.forEach(clearTimeout);tms=[];try{V.pause();}catch(e){}cancelAnimationFrame(raf);O.style.display='none';}
@@ -391,23 +392,23 @@ let lyOff=0,lyOn=true,lyIdx=-2,offT=0;try{lyOff=parseFloat(localStorage.getItem(
 function lyUpd(){const t=V.currentTime-lyOff;let k=-1;for(let i=0;i<LY.length;i++)if(t>=LY[i][0])k=i;if(k===lyIdx)return;lyIdx=k;
  lyEls.forEach((e,i)=>{e.className='bnL'+(i===k?' cur':i<k?' pas':'');});const ref=lyEls[Math.max(0,k)];LyI.style.transform='translateY('+(300-ref.offsetTop)+'px)';}
 function lyShowOff(){Off.textContent='LETRA '+(lyOff>=0?'+':'')+lyOff.toFixed(1)+' s';Off.style.opacity='1';clearTimeout(offT);offT=setTimeout(()=>Off.style.opacity='0',1500);try{localStorage.setItem('tia_lyoff',lyOff);}catch(e){}lyIdx=-2;}
-function loop(now){if(!on)return;raf=requestAnimationFrame(loop);if(!V.paused||V.currentTime>0)lyUpd();const T=(now-t0)/1000;
+let lastF=0;function loop(now){if(!on)return;raf=requestAnimationFrame(loop);if(now-lastF<33)return;lastF=now;if(!V.paused||V.currentTime>0)lyUpd();const T=(now-t0)/1000;
  let L=0,bands=null;if(an&&!V.paused){an.getByteFrequencyData(buf);let s=0;for(let i=2;i<40;i++)s+=buf[i];L=s/38/255;bands=buf;}
  else if(!V.paused){L=.35+.25*Math.abs(Math.sin(T*4.1))*Math.abs(Math.sin(T*1.3+.6));}
  lvl+=(L-lvl)*.25;
  bars.forEach((b,i)=>{let v;if(bands){v=bands[2+Math.floor(i*1.6)]/255;}else{v=V.paused?0:(.2+.8*Math.abs(Math.sin(T*3+i*.7))*lvl);}b.style.height=(4+v*66)+'px';});
- if(!V.paused){Fr.style.boxShadow=`0 0 ${40+lvl*140}px rgba(255,195,77,${.25+lvl*.6})`;S1.style.opacity=S2.style.opacity=(.55+lvl*.6).toFixed(2);}
+ if(!V.paused){S1.style.opacity=S2.style.opacity=(.55+lvl*.5).toFixed(2);}
  Dot.style.background=Math.sin(T*8)>0?'#ff2b3c':'#7a1520';
- if(!V.paused&&Math.random()<.08+lvl*.5)parts.push(nova(false));
+ if(!V.paused&&parts.length<70&&Math.random()<.05+lvl*.25)parts.push(nova(false));
  cx.clearRect(0,0,1920,1080);cx.textAlign='center';cx.textBaseline='middle';
  parts=parts.filter(p=>p.y>-80&&p.y<1200);for(const p of parts){p.x+=p.vx;p.y+=p.vy;p.a=Math.min(1,p.a+.03);
-  const fade=p.v===2?1:Math.min(1,(p.y+80)/500);cx.globalAlpha=p.a*fade*.85;cx.fillStyle=`rgb(${p.hue})`;cx.shadowColor=`rgba(${p.hue},.9)`;cx.shadowBlur=14;
+  const fade=p.v===2?1:Math.min(1,(p.y+80)/500);cx.globalAlpha=p.a*fade*.85;cx.fillStyle=`rgb(${p.hue})`;
   cx.save();cx.translate(p.x,p.y);cx.rotate(p.rot);cx.font=`900 ${p.s}px Inter,Arial,sans-serif`;cx.fillText(p.c,0,0);cx.restore();}
  cx.globalAlpha=1;cx.shadowBlur=0;}
 document.addEventListener('click',e=>{if(e.target&&e.target.id==='bnGo'){e.preventDefault();e.stopPropagation();abrir();}},true);
 addEventListener('keydown',e=>{if(!on)return;e.stopImmediatePropagation();e.preventDefault();
  if(e.key==='Escape')fechar();else if(e.key.toLowerCase()==='l'){lyOn=!lyOn;LyB.style.opacity=lyOn?'1':'0';try{localStorage.setItem('tia_lyon',lyOn?'1':'0');}catch(x){}}else if(e.key===']'){lyOff+=.5;lyShowOff();}else if(e.key==='['){lyOff-=.5;lyShowOff();}else if(e.key===' '){if(V.paused){V.play().catch(()=>{});}else V.pause();}},true);
-window.__bonus={abrir,fechar};})();
+window.__bonus={abrir,fechar};const bsec=document.getElementById('bnGo')&&document.getElementById('bnGo').closest('section');if(bsec)new MutationObserver(()=>{if(bsec.classList.contains('on')&&!on&&V.paused&&V.readyState<3){try{V.preload='auto';V.load();}catch(e){}}}).observe(bsec,{attributes:true,attributeFilter:['class']});})();
 
 /* ===== sl 20: link para o projeto da depoente (ChatGPT) ===== */
 (function(){const DEP_PADRAO='https://chatgpt.com/g/g-p-6b0505734a3481919585d117f05ea0ef-julgamento-ia/project';const K='tia_depoente';const a=document.getElementById('wCall'),c=document.getElementById('wCfg');if(!a)return;
