@@ -59,12 +59,34 @@ const safeDetail = value => {
   if (/a=ice-|a=candidate:|v=0[\r\n]|-----BEGIN/i.test(clean)) return '[detalhe de transporte omitido]';
   return clean.replace(/[\r\n\t]+/g,' ').slice(0,500);
 };
+// Apenas mídias autorizadas do bônus, em mesma origem, com suporte a Range.
+const bonusMedia={'musica_ia.mp4':'video/mp4','musica_ia_poster.jpg':'image/jpeg','bm.jpg':'image/jpeg'};
+async function serveBonusMedia(req,res,filename){
+  const mime=bonusMedia[filename];if(!mime)return json(res,404,{error:'Mídia não encontrada'});
+  const url=new URL('./media/'+filename,import.meta.url);
+  try{
+    const data=await readFile(url);const size=data.length;
+    const headers={'Content-Type':mime,'Accept-Ranges':'bytes','Cache-Control':'public, max-age=3600'};
+    const range=req.headers.range;let start=0,end=size-1,status=200;
+    if(range){
+      const m=/^bytes=(\d*)-(\d*)$/.exec(range);
+      if(!m||(!m[1]&&!m[2])){res.writeHead(416,{'Content-Range':'bytes */'+size});return res.end();}
+      if(!m[1]){const suffix=Number(m[2]);start=Math.max(0,size-suffix);}
+      else{start=Number(m[1]);if(m[2])end=Math.min(size-1,Number(m[2]));}
+      if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<0||start>=size||end<start){res.writeHead(416,{'Content-Range':'bytes */'+size});return res.end();}
+      status=206;headers['Content-Range']='bytes '+start+'-'+end+'/'+size;
+    }
+    headers['Content-Length']=end-start+1;
+    res.writeHead(status,headers);return res.end(req.method==='HEAD'?undefined:data.subarray(start,end+1));
+  }catch{return json(res,404,{error:'Mídia indisponível'});}
+}
 const server = http.createServer(async (req,res)=>{
   const pathname = new URL(req.url,'http://localhost').pathname;
   res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
+  if(['GET','HEAD'].includes(req.method)&&pathname.startsWith('/media/'))return serveBonusMedia(req,res,pathname.slice(7));
   if(req.method==='GET' && ['/','/voice-test'].includes(pathname)){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});return res.end(page);}
   if(req.method==='GET' && pathname==='/apresentacao'){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});return res.end(presentation);}
-  if(req.method==='GET' && pathname==='/health'){return json(res,ready?200:503,{ok:ready,model,backend,version:'realtime-2.1-audiencia-6',extraMaterialLoaded:material.some(x=>x.name.startsWith('Material Denilson')),collectiveContextActive:!!collectiveContext(),limits,knowledgeFiles:material.length,knowledgeWarnings});}
+  if(req.method==='GET' && pathname==='/health'){return json(res,ready?200:503,{ok:ready,model,backend,version:'realtime-2.1-audiencia-7',extraMaterialLoaded:material.some(x=>x.name.startsWith('Material Denilson')),collectiveContextActive:!!collectiveContext(),limits,knowledgeFiles:material.length,knowledgeWarnings});}
   if(req.method==='GET'&&pathname==='/api/auth'){return json(res,200,{authenticated:ready&&authCookie(req),limits});}
   if(req.method!=='POST'||!['/api/session','/api/consult','/api/login','/api/logout'].includes(pathname)) return json(res,404,{error:'Rota não encontrada'});
   if(!ready) return json(res,503,{error:'Configure as duas variáveis de ambiente no servidor.'});
