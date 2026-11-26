@@ -71,6 +71,33 @@ function retrieve(question){
 }
 
 console.log('Material de referência:',material.map(x=>x.name).join(', '), 'Avisos:',knowledgeWarnings.join('; ')||'nenhum');
+
+async function costAnswer(question){
+ const admin=process.env.OPENAI_ADMIN_KEY;
+ if(!admin)return {answer:'A consulta de custos ainda não está habilitada: falta configurar a chave administrativa no servidor.',sources:[]};
+ const q=normalize(question),now=Math.floor(Date.now()/1000),d=new Date();
+ const monthly=/mes|mensal/.test(q),week=/semana|7 dias/.test(q),yesterday=/ontem/.test(q);
+ const project=/tribunal|audiencia|projeto|sessao/.test(q);
+ if(project&&!process.env.OPENAI_COST_PROJECT_ID)return {answer:'Não tenho o identificador do projeto para separar os custos do Tribunal dos demais gastos da organização.',sources:[]};
+ if(/sessao|audiencia/.test(q)&&!/hoje|mes|semana|ontem/.test(q))return {answer:'A API de custos fornece totais diários, não o custo isolado desta sessão. Posso consultar o total do projeto por dia, semana ou mês.',sources:[]};
+ const start=monthly?Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),1)/1000:Math.floor(now/86400)*86400-(week?6:yesterday?1:0)*86400;
+ const params=new URLSearchParams({start_time:String(start),end_time:String(yesterday?start+86400:now),bucket_width:'1d',limit:'31'});
+ if(project)params.append('project_ids',process.env.OPENAI_COST_PROJECT_ID);
+ const totals=new Map();let pageCount=0;
+ do{
+ const response=await fetch('https://api.openai.com/v1/organization/costs?'+params,{headers:{Authorization:'Bearer '+admin},signal:AbortSignal.timeout(10000)});
+ if(!response.ok)return {answer:'Não consegui consultar o faturamento oficial da OpenAI. Verifique a configuração administrativa.',sources:[]};
+ const data=await response.json();
+ if(!Array.isArray(data.data))throw Error('Invalid costs response');
+ for(const bucket of data.data)for(const row of bucket.results||[]){const a=row.amount;if(Number.isFinite(a?.value)&&typeof a.currency==='string')totals.set(a.currency,(totals.get(a.currency)||0)+a.value);}
+ if(!data.has_more)break;
+ if(!data.next_page||++pageCount>12)throw Error('Incomplete costs response');
+ params.set('page',data.next_page);
+ }while(true);
+ const value=[...totals].map(([currency,n])=>currency.toUpperCase()+' '+n.toFixed(4)).join(', ')||'nenhum custo registrado até o momento';
+ return {answer:'O custo registrado '+(project?'do projeto Tribunal IA':'da organização OpenAI')+' '+(monthly?'neste mês':week?'nos últimos sete dias':yesterday?'ontem':'hoje')+' (calendário UTC) é '+value+'. A contabilização pode ter atraso; não é saldo de créditos nem custo exclusivo da sessão.',sources:[]};
+}
+
 const hash = s => createHash('sha256').update(s).digest();
 let attempts = [], starts = [], queries = [];
 const json = (res,status,data) => {res.writeHead(status,{'Content-Type':'application/json; charset=utf-8'});res.end(JSON.stringify(data));};
@@ -118,7 +145,7 @@ const server = http.createServer(async (req,res)=>{
   if(['GET','HEAD'].includes(req.method)&&pathname.startsWith('/media/'))return serveBonusMedia(req,res,pathname.slice(7));
   if(req.method==='GET' && ['/','/voice-test'].includes(pathname)){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});return res.end(page);}
   if(req.method==='GET' && pathname==='/apresentacao'){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});return res.end(presentation);}
-  if(req.method==='GET' && pathname==='/health'){return json(res,ready?200:503,{ok:ready,model,backend,version:'realtime-2.1-audiencia-12-rag',ragChunks:index.length,extraMaterialLoaded:material.some(x=>x.name.startsWith('Material Denilson')||x.name==='pdf-denilson.md'),collectiveContextActive:!!collectiveContext(),limits,knowledgeFiles:material.length,knowledgeWarnings});}
+  if(req.method==='GET' && pathname==='/health'){return json(res,ready?200:503,{ok:ready,model,backend,version:'realtime-2.1-audiencia-13-costs',costsConfigured:!!process.env.OPENAI_ADMIN_KEY,ragChunks:index.length,extraMaterialLoaded:material.some(x=>x.name.startsWith('Material Denilson')||x.name==='pdf-denilson.md'),collectiveContextActive:!!collectiveContext(),limits,knowledgeFiles:material.length,knowledgeWarnings});}
   if(req.method==='GET'&&pathname==='/api/auth'){return json(res,200,{authenticated:ready&&authCookie(req),limits});}
   if(req.method!=='POST'||!['/api/session','/api/consult','/api/login','/api/logout'].includes(pathname)) return json(res,404,{error:'Rota não encontrada'});
   if(!ready) return json(res,503,{error:'Configure as duas variáveis de ambiente no servidor.'});
@@ -141,13 +168,14 @@ const server = http.createServer(async (req,res)=>{
       queries=queries.filter(t=>Date.now()-t<3600000);
       if(queries.length>=limits.consultsPerHour) return json(res,429,{error:'Limite local de '+limits.consultsPerHour+' consultas por hora.'});
       queries.push(Date.now());
+      if(/\b(consumo|gasto[s]?|gastei|cust[oa][s]?|faturamento|cobranca|paguei|pagamento)\b/.test(normalize(body.question))&&/\b(api|openai|tribunal|sessao|audiencia|meu|minha)\b/.test(normalize(body.question)))return json(res,200,await costAnswer(body.question));
       upstream=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({model:backend,instructions:backendPrompt+'\n\nTRECHOS RECUPERADOS DA BASE (podem ser incompletos; declare lacunas):\n'+retrieve(body.question)+'\n\nUse os marcadores SLIDE N como numeração oficial, começando em 1. Responda com base no trecho correspondente e nas notas. Não confunda fase com slide. Para vídeo, informe título e notas sem inventar transcrição.'+classSuffix(),input:body.question.trim(),store:false,tools:[{type:'web_search'}],tool_choice:body.pesquisa_atual===true||/\b(hoje|ontem|recent[ea]s?|atual(?:mente|izado|ização)?|notícias?|últim[oa]s?|esta semana|este mês|incidentes?|jurisprudência|ciberataques?)\b/i.test(body.question)?'required':'auto',max_output_tokens:2400}),signal:AbortSignal.timeout(60000)});
     }else{
       if(typeof body?.sdp!=='string'||!body.sdp.startsWith('v=0')) return json(res,400,{error:'SDP inválido'});
       if(starts.length>=limits.sessionsPerHour) return json(res,429,{error:'Limite local de sessões atingido.'});starts.push(Date.now());
       const form=new FormData();
       form.set('sdp',body.sdp);
-      form.set('session',JSON.stringify({type:'realtime',model,instructions:instructions+slideGuidance+denilsonGuidance+classSuffix(),reasoning:{effort:'medium'},audio:{output:{voice:process.env.LIVE_VOICE||'marin'}},tools:[{type:'function',name:'controlar_tribunal',description:'Executar ordem oral direta do tribunal antes de falar, ou ignorar áudio sem pergunta dirigida à depoente.',parameters:{type:'object',properties:{acao:{type:'string',enum:['convocar','retirar','retornar','despedir','ignorar']}},required:['acao'],additionalProperties:false}},{type:'function',name:'consultar_backend',description:'Consultar os materiais da audiência e pesquisar fontes confiáveis na internet para perguntas factuais, técnicas, jurídicas ou atuais.',parameters:{type:'object',properties:{question:{type:'string',description:'Pergunta completa e contexto relevante sem dados pessoais.'},pesquisa_atual:{type:'boolean',description:'Verdadeiro para eventos recentes, segurança, legislação vigente, jurisprudência ou informações atuais que precisam de pesquisa web.'}},required:['question','pesquisa_atual'],additionalProperties:false}}],tool_choice:'auto'}));
+      form.set('session',JSON.stringify({type:'realtime',model,instructions:instructions+'\nPara perguntas sobre consumo, gastos ou faturamento da API OpenAI, chame consultar_backend com a pergunta completa, incluindo API OpenAI e o período pedido, pesquisa_atual=false. Nunca estime nem invente valores. Leia o valor retornado e seu escopo.'+slideGuidance+denilsonGuidance+classSuffix(),reasoning:{effort:'medium'},audio:{output:{voice:process.env.LIVE_VOICE||'marin'}},tools:[{type:'function',name:'controlar_tribunal',description:'Executar ordem oral direta do tribunal antes de falar, ou ignorar áudio sem pergunta dirigida à depoente.',parameters:{type:'object',properties:{acao:{type:'string',enum:['convocar','retirar','retornar','despedir','ignorar']}},required:['acao'],additionalProperties:false}},{type:'function',name:'consultar_backend',description:'Consultar os materiais da audiência e pesquisar fontes confiáveis na internet para perguntas factuais, técnicas, jurídicas ou atuais.',parameters:{type:'object',properties:{question:{type:'string',description:'Pergunta completa e contexto relevante sem dados pessoais.'},pesquisa_atual:{type:'boolean',description:'Verdadeiro para eventos recentes, segurança, legislação vigente, jurisprudência ou informações atuais que precisam de pesquisa web.'}},required:['question','pesquisa_atual'],additionalProperties:false}}],tool_choice:'auto'}));
       upstream=await fetch('https://api.openai.com/v1/realtime/calls',{method:'POST',headers:{Authorization:'Bearer '+key,'OpenAI-Safety-Identifier':createHash('sha256').update('tribunal-ia-presenter-v1').digest('hex')},body:form,signal:AbortSignal.timeout(30000)});
     }
     if(!upstream.ok){
